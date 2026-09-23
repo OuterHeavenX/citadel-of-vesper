@@ -1,0 +1,116 @@
+{
+  "$id": "https://outerheavenx.github.io/citadel-of-vesper/schemas/consumable.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Consumable item definition.",
+  "properties": {
+    "category": {
+      "const": "consumable"
+    },
+    "description": {
+      "type": "string"
+    },
+    "effect": {
+      "additionalProperties": false,
+      "description": "What using it does.",
+      "properties": {
+        "cure": {
+          "items": {
+            "type": "string"
+          },
+          "type": "string"
+        },
+        "heal": {
+          "type": "number"
+        },
+        "healPercent": {
+          "type": "number"
+        },
+        "mana": {
+          "type": "number"
+        },
+        "manaPercent": {
+          "type": "number"
+        },
+        "buff": {
+          "type": "object",
+          "description": "Timed stat buff applied on use (tracked in gameState.buffs).",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "name": {
+              "type": "string"
+            },
+            "description": {
+              "type": "string"
+            },
+            "stats": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "number"
+              }
+            },
+            "durationSec": {
+              "type": "number",
+              "minimum": 1
+            }
+          },
+          "required": [
+            "id",
+            "stats",
+            "durationSec"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "type": "object"
+    },
+    "flavor": {
+      "type": "string"
+    },
+    "icon": {
+      "type": "string"
+    },
+    "id": {
+      "pattern": "^[a-z0-9_]+$",
+      "type": "string"
+    },
+    "maxStack": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "rarity": {
+      "enum": [
+        "common",
+        "uncommon",
+        "rare",
+        "epic",
+        "legendary"
+      ]
+    },
+    "usableInCombat": {
+      "type": "boolean"
+    },
+    "value": {
+      "minimum": 0,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "name",
+    "category",
+    "description",
+    "rarity",
+    "value",
+    "icon",
+    "effect",
+    "usableInCombat"
+  ],
+  "title": "Consumable",
+  "type": "object"
+}

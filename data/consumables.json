@@ -1,0 +1,66 @@
+[
+  {
+    "category": "consumable",
+    "description": "A warm red draught that knits flesh with startling speed.",
+    "effect": {
+      "heal": 50
+    },
+    "icon": "ember_tonic",
+    "id": "ember_tonic",
+    "maxStack": 9,
+    "name": "Ember Tonic",
+    "rarity": "common",
+    "usableInCombat": true,
+    "value": 30
+  },
+  {
+    "category": "consumable",
+    "description": "Bitter blue liquid distilled from observatory glass-flowers. Restores focus.",
+    "effect": {
+      "mana": 30
+    },
+    "icon": "vesper_draught",
+    "id": "vesper_draught",
+    "maxStack": 9,
+    "name": "Vesper Draught",
+    "rarity": "uncommon",
+    "usableInCombat": true,
+    "value": 45
+  },
+  {
+    "category": "consumable",
+    "description": "A grey draught that settles over the skin like cooled ash. Blows glance off for a little while.",
+    "effect": {
+      "buff": {
+        "description": "Hardens the drinker's skin against blows.",
+        "durationSec": 60,
+        "id": "ash_ward",
+        "name": "Ash Ward",
+        "stats": {
+          "def": 12
+        }
+      }
+    },
+    "icon": "ashward_draught",
+    "id": "ashward_draught",
+    "maxStack": 5,
+    "name": "Ashward Draught",
+    "rarity": "uncommon",
+    "usableInCombat": true,
+    "value": 60
+  },
+  {
+    "id": "waybread",
+    "name": "Waybread",
+    "category": "consumable",
+    "description": "A dense travel loaf. Restores a little vigor, but no one eats this mid-fight.",
+    "effect": {
+      "heal": 15
+    },
+    "usableInCombat": false,
+    "maxStack": 9,
+    "rarity": "common",
+    "value": 8,
+    "icon": "waybread"
+  }
+]

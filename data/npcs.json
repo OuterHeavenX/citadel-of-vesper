@@ -1,0 +1,510 @@
+[
+  {
+    "dialogue": {
+      "defaultStart": "greet",
+      "nodes": {
+        "greet": {
+          "choices": [
+            {
+              "next": "gate",
+              "text": "\"What is this place?\""
+            },
+            {
+              "next": "warden_hint",
+              "text": "\"What should I watch for beyond the gate?\""
+            },
+            {
+              "next": null,
+              "text": "\"I'll be going.\""
+            }
+          ],
+          "onEnter": [
+            {
+              "flag": "met_old_tam",
+              "value": true
+            }
+          ],
+          "text": "Another one through the Threshold. Mind the step, lad — the stones remember feet better than names. I'm Tam. I kept this gate when it had a garrison, and I keep it now that it has me."
+        },
+        "gate": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Tell me of the Ruin.\""
+            },
+            {
+              "next": null,
+              "text": "\"Understood.\""
+            }
+          ],
+          "text": "The Moonlit Gate was the Citadel's front door, back when the moon still rose round and honest. Then came the Ruin — one night the sky tore like wet parchment, and everything the moonlight touched turned hollow. The Citadel has been picking at the wound ever since."
+        },
+        "warden_hint": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"I'll remember that.\""
+            }
+          ],
+          "text": "Past the Lantern Court stands the Warden's Chapel. The Chapel Warden still rings its bell for a congregation of dust. When you hear the toll — move. The bell is not a warning, it's the blow itself."
+        }
+      },
+      "variants": []
+    },
+    "id": "old_tam",
+    "sprite": "old_tam",
+    "merchantId": null,
+    "name": "Old Tam",
+    "portrait": "old_tam",
+    "relocate": [],
+    "roomId": "moonlit_gate_001",
+    "title": "Threshold Keeper",
+    "x": 96,
+    "y": 200
+  },
+  {
+    "dialogue": {
+      "defaultStart": "greet",
+      "nodes": {
+        "greet": {
+          "choices": [
+            {
+              "next": "ruin_lore",
+              "text": "\"What do you know of the Ruin?\""
+            },
+            {
+              "next": "leap_hint",
+              "text": "\"Have you seen anything... unreachable?\""
+            },
+            {
+              "next": null,
+              "text": "\"Keep the lanterns lit, Sister.\""
+            }
+          ],
+          "onEnter": [
+            {
+              "flag": "met_sister_ansel",
+              "value": true
+            }
+          ],
+          "text": "Welcome to the Lantern Court, traveler. I am Ansel, keeper of these flames. While one lantern burns here, the Gate remembers what it was. Sit a moment. The dark can wait; it is patient, but so am I."
+        },
+        "ruin_lore": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"I won't forget.\""
+            }
+          ],
+          "text": "The Ruin was not a war. Wars end. On that night the moon went hollow — a ring of light with nothing inside — and its light unmade things instead of revealing them. Dogs, scholars, whole chapels: unmade, then remade wrong. We call them the Hollow now."
+        },
+        "leap_hint": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"A second leap. I'll remember.\""
+            }
+          ],
+          "text": "Ah — a seeker after high places. Above the Reliquary's tall shelves there is an alcove no stair was ever built to reach, and the reliquaries inside it were never looted. The old order knew one secret worth the keeping: leap, and at the very crown of your leap — leap again. The moon teaches; the body remembers."
+        },
+        "post_warden": {
+          "choices": [
+            {
+              "next": "ruin_lore",
+              "text": "\"Tell me of the Ruin again.\""
+            },
+            {
+              "next": null,
+              "text": "\"The Court stands because of you.\""
+            }
+          ],
+          "text": "The bell has gone silent, and the Chapel breathes easier. You did that. The Court will keep a lantern burning with your name on it — Lucien Vale, who quieted the Warden."
+        }
+      },
+      "variants": [
+        {
+          "flag": "boss_defeated_chapel_warden",
+          "start": "post_warden"
+        }
+      ]
+    },
+    "id": "sister_ansel",
+    "sprite": "sister_ansel",
+    "merchantId": null,
+    "name": "Sister Ansel",
+    "portrait": "sister_ansel",
+    "relocate": [],
+    "roomId": "moonlit_gate_002",
+    "title": "Keeper of the Lantern Court",
+    "x": 320,
+    "y": 200
+  },
+  {
+    "dialogue": {
+      "defaultStart": "greet",
+      "nodes": {
+        "greet": {
+          "choices": [
+            {
+              "next": "wares",
+              "text": "\"Show me your wares.\""
+            },
+            {
+              "next": "gossip",
+              "text": "\"Heard anything worth knowing?\""
+            },
+            {
+              "next": null,
+              "text": "\"Another time, Corvus.\""
+            }
+          ],
+          "onEnter": [
+            {
+              "flag": "met_corvus_vane",
+              "value": true
+            }
+          ],
+          "text": "Boots! Boots on the stones, coin in the air — Corvus Vane sees all, sells most. Everything in this pack was acquired honestly, which is to say: I paid for it, and the previous owners are in no position to complain."
+        },
+        "wares": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"Let me browse.\""
+            }
+          ],
+          "text": "Tonics, draughts, a coat that has survived three owners — browse, browse. And if the Warden's bell ever stops ringing, come find me. I keep one very special trinket for heroes."
+        },
+        "gossip": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"Good to know.\""
+            }
+          ],
+          "text": "Word travels faster than feet in the Gate. They say the Sunken Chapel's teleporter still works — one of the old transit circles. And they say something in the Hollow Keep pays well for silence. I pay well for gossip, so we're even."
+        },
+        "post_warden": {
+          "choices": [
+            {
+              "next": "wares",
+              "text": "\"About those wares...\""
+            },
+            {
+              "next": null,
+              "text": "\"Pleasure doing business.\""
+            }
+          ],
+          "text": "The Warden's bell, silent! I told you I keep one special trinket for heroes — a moonstone charm, warm as a held hand. It's yours if your purse agrees."
+        }
+      },
+      "variants": [
+        {
+          "flag": "boss_defeated_chapel_warden",
+          "start": "post_warden"
+        }
+      ]
+    },
+    "id": "corvus_vane",
+    "sprite": "corvus_vane",
+    "merchantId": "corvus_vane",
+    "name": "Corvus Vane",
+    "portrait": "corvus_vane",
+    "relocate": [],
+    "roomId": "moonlit_gate_002",
+    "title": "Moonlit Gate Peddler",
+    "x": 400,
+    "y": 200
+  },
+  {
+    "dialogue": {
+      "defaultStart": "greet",
+      "nodes": {
+        "greet": {
+          "choices": [
+            {
+              "next": "chapel",
+              "text": "\"What is this chapel?\""
+            },
+            {
+              "next": "warden_tactics",
+              "text": "\"How does one fight the Warden?\"",
+              "quest": {
+                "questId": "chapel_warden_hunt",
+                "stage": "heard"
+              }
+            },
+            {
+              "next": null,
+              "text": "\"The circle hums. I'll use it.\""
+            }
+          ],
+          "onEnter": [
+            {
+              "flag": "met_maribel_quill",
+              "value": true
+            }
+          ],
+          "text": "Shh — listen. The transit circle hums beneath us; it remembers every foot that ever stood here. I'm Maribel. I came to study the Sunken Chapel and stayed to apologize to it."
+        },
+        "chapel": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"I'll be careful.\""
+            }
+          ],
+          "text": "This chapel sank a full storey in the Ruin and nobody rebuilt it — the Citadel just built around the hole. The transit circle is the only honest thing left here. Step in, think of where you've been, and the moon does the walking."
+        },
+        "warden_tactics": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": "chapel",
+              "text": "\"Tell me of the chapel instead.\""
+            },
+            {
+              "next": null,
+              "text": "\"After the toll, not before. Got it.\""
+            }
+          ],
+          "text": "The Warden's Chapel lies past the Weeping Gallery. He was carved to guard the dead, and guarding is all he has left. When his bell tolls, the sound itself strikes — don't brace, don't pray, just be elsewhere. Strike in the silence after. And when he falls... come tell me. I owe this chapel an ending."
+        },
+        "post_warden": {
+          "choices": [
+            {
+              "next": "chapel",
+              "text": "\"The chapel feels different now.\""
+            },
+            {
+              "next": null,
+              "text": "\"It needed doing.\""
+            }
+          ],
+          "text": "You did it. The bell is still, and for the first time in years I heard the circle hum without the tolling underneath. Take this with my thanks — no, don't argue. The chapel owes you more than a trinket."
+        }
+      },
+      "variants": [
+        {
+          "flag": "boss_defeated_chapel_warden",
+          "start": "post_warden"
+        }
+      ]
+    },
+    "id": "maribel_quill",
+    "sprite": "maribel_quill",
+    "merchantId": null,
+    "name": "Maribel Quill",
+    "portrait": "maribel_quill",
+    "relocate": [],
+    "roomId": "moonlit_gate_007",
+    "title": "Chapel Antiquarian",
+    "x": 240,
+    "y": 180
+  },
+  {
+    "dialogue": {
+      "defaultStart": "greet",
+      "nodes": {
+        "greet": {
+          "choices": [
+            {
+              "next": "wares",
+              "text": "\"What are you selling?\""
+            },
+            {
+              "next": "keep_lore",
+              "text": "\"What happened to the Hollow Keep?\""
+            },
+            {
+              "next": null,
+              "text": "\"Keep the shelves stocked, Wren.\""
+            }
+          ],
+          "onEnter": [
+            {
+              "flag": "met_wren_aldervale",
+              "value": true
+            }
+          ],
+          "text": "Mind the puddles — the Keep weeps through its ceilings and I mop with inventory. Wren Aldervale, provisioner. My shelves survived the Ruin; my prices, I'm afraid, did not. Everything's priced to move, preferably before the ceiling does."
+        },
+        "wares": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"Let me see the stock.\""
+            }
+          ],
+          "text": "Tonics for the body, draughts for the focus, coats for the weather the Keep insists on having indoors. And if you've quieted the Chapel Warden, ask me about the sabre — moonsteel, old order make. I don't show it to just anyone."
+        },
+        "keep_lore": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"Then I'll tread lightly.\""
+            }
+          ],
+          "text": "The Hollow Keep was the Citadel's storehouse and barracks — full of soldiers, fuller of supplies. When the Ruin came, the soldiers hollowed first and the supplies... well, you're looking at the supplies. The Sable Matriarch nests deeper in, in the Sanctum. She was nobility once. The Ruin kept her title and took the rest."
+        },
+        "post_warden": {
+          "choices": [
+            {
+              "next": "wares",
+              "text": "\"About that sabre.\""
+            },
+            {
+              "next": null,
+              "text": "\"Business is business.\""
+            }
+          ],
+          "text": "Word reached even the Keep's damp corners: the Warden is silent. A promise is a promise — the moonsteel sabre is on the shelf now, and I'll not haggle with the person who earned it."
+        }
+      },
+      "variants": [
+        {
+          "flag": "boss_defeated_chapel_warden",
+          "start": "post_warden"
+        }
+      ]
+    },
+    "id": "wren_aldervale",
+    "sprite": "wren_aldervale",
+    "merchantId": "wren_aldervale",
+    "name": "Wren Aldervale",
+    "portrait": "wren_aldervale",
+    "relocate": [],
+    "roomId": "hollow_keep_002",
+    "title": "Provisioner of the Hollow Keep",
+    "x": 160,
+    "y": 200
+  },
+  {
+    "dialogue": {
+      "defaultStart": "greet",
+      "nodes": {
+        "greet": {
+          "choices": [
+            {
+              "next": "matriarch",
+              "text": "\"Who is the Sable Matriarch?\"",
+              "quest": {
+                "questId": "matriarch_hunt",
+                "stage": "heard"
+              }
+            },
+            {
+              "next": "survive",
+              "text": "\"How does one survive the deep Keep?\""
+            },
+            {
+              "next": null,
+              "text": "\"I'll keep my blade ready.\""
+            }
+          ],
+          "onEnter": [
+            {
+              "flag": "met_gideon_hollow",
+              "value": true
+            }
+          ],
+          "text": "Another live one. Good. The Keep collects the other kind. Name's Gideon Hollow — yes, like the Keep, no, I don't want to talk about it. I map the deep rooms for people with more courage than sense. Which are you?"
+        },
+        "matriarch": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": "survive",
+              "text": "\"How do I survive her?\""
+            },
+            {
+              "next": null,
+              "text": "\"Noted.\""
+            }
+          ],
+          "text": "She ruled this Keep when it was alive — Matriarch of the Hollow Keep, sable cloak, iron will. The Ruin took the Keep and left her holding it. Now she nests in the Sable Sanctum past the Antechamber, and the whole deep Keep answers to her. When her lanterns call, her brood comes running. Burn the brood first. Then pray your arms hold out."
+        },
+        "survive": {
+          "choices": [
+            {
+              "next": "greet",
+              "text": "\"Back.\""
+            },
+            {
+              "next": null,
+              "text": "\"Ashward draught. Understood.\""
+            }
+          ],
+          "text": "Three rules. One: never stand still — the rustbound love a stationary target. Two: an ashward draught before a hard fight; Wren sells them, and hardened skin has saved more explorers than prayers. Three: the deep Keep's moths drink light. Carry your own."
+        },
+        "post_warden": {
+          "choices": [
+            {
+              "next": "matriarch",
+              "text": "\"The Matriarch is next.\""
+            },
+            {
+              "next": null,
+              "text": "\"One tyrant at a time.\""
+            }
+          ],
+          "text": "Heard about the Warden. The Gate's dead can rest now. Don't let it go to your head down here — the Matriarch has ended braver souls than the Warden ever met."
+        }
+      },
+      "variants": [
+        {
+          "flag": "boss_defeated_chapel_warden",
+          "start": "post_warden"
+        }
+      ]
+    },
+    "id": "gideon_hollow",
+    "sprite": "gideon_hollow",
+    "merchantId": null,
+    "name": "Gideon Hollow",
+    "portrait": "gideon_hollow",
+    "relocate": [],
+    "roomId": "hollow_keep_002",
+    "title": "Deep-Keep Chartmaker",
+    "x": 400,
+    "y": 200
+  }
+]

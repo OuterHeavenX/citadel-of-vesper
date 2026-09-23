@@ -1,0 +1,1988 @@
+[
+  {
+    "id": "moonlit_gate_001",
+    "region": "moonlit_gate",
+    "name": "Moonlit Threshold",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 0,
+      "y": 0
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg001_east",
+        "dir": "east",
+        "x": 944,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_002",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      }
+    ],
+    "playerStart": {
+      "x": 120,
+      "y": 236,
+      "facing": 1
+    },
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ]
+    },
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "quantity": 1,
+        "x": 200,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 120,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 840,
+        "y": 224
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "mg001_threshold",
+        "x": 120,
+        "y": 236
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_002",
+    "region": "moonlit_gate",
+    "name": "Lantern Court",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 1,
+      "y": 0
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg002_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_001",
+        "spawn": {
+          "x": 930,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "mg002_east",
+        "dir": "east",
+        "x": 944,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_004",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      },
+      {
+        "id": "mg002_ledge",
+        "dir": "up",
+        "x": 440,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "moonlit_gate_003",
+        "spawn": {
+          "x": 360,
+          "y": 236,
+          "facing": 1
+        },
+        "requires": [
+          "moonrise_leap"
+        ],
+        "hint": "The ledge is beyond your reach \u2014 moonlight might lend you wings."
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 420,
+          "y": 170,
+          "w": 120
+        }
+      ]
+    },
+    "pickups": [
+      {
+        "itemId": "recruit_blade",
+        "quantity": 1,
+        "x": 480,
+        "y": 190,
+        "chest": true
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 300,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 660,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 140,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 820,
+        "y": 224
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "mg002_lantern",
+        "x": 480,
+        "y": 236
+      }
+    ],
+    "saveRoom": true
+  },
+  {
+    "id": "moonlit_gate_003",
+    "region": "moonlit_gate",
+    "name": "Starlit Overlook",
+    "width": 720,
+    "height": 270,
+    "map": {
+      "x": 1,
+      "y": -1
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg003_down",
+        "dir": "down",
+        "x": 320,
+        "y": 254,
+        "w": 80,
+        "h": 16,
+        "target": "moonlit_gate_002",
+        "spawn": {
+          "x": 480,
+          "y": 60,
+          "facing": 1
+        }
+      },
+      {
+        "id": "mg003_east",
+        "dir": "east",
+        "x": 704,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_005",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 720,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 470,
+          "y": 160,
+          "w": 120
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "cinder_wisp",
+        "x": 300,
+        "y": 240
+      },
+      {
+        "id": "cinder_wisp",
+        "x": 530,
+        "y": 160
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 120,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 620,
+        "y": 224
+      }
+    ],
+    "secrets": [
+      {
+        "id": "mg003_overlook_cache",
+        "kind": "hidden_floor",
+        "x": 490,
+        "y": 150,
+        "w": 80,
+        "h": 20,
+        "reward": {
+          "itemId": "dusk_hood",
+          "quantity": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_004",
+    "region": "moonlit_gate",
+    "name": "Warded Passage",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 2,
+      "y": 0
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg004_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_002",
+        "spawn": {
+          "x": 930,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "mg004_gate",
+        "dir": "east",
+        "x": 944,
+        "y": 150,
+        "w": 16,
+        "h": 100,
+        "target": "moonlit_gate_007",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        },
+        "requiresItem": "moonstone_charm",
+        "hint": "A ward of cold moonlight seals the gate."
+      },
+      {
+        "id": "mg004_south",
+        "dir": "south",
+        "x": 440,
+        "y": 254,
+        "w": 80,
+        "h": 16,
+        "target": "moonlit_gate_005",
+        "spawn": {
+          "x": 500,
+          "y": 40,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "ash_hound",
+        "x": 300,
+        "y": 240
+      },
+      {
+        "id": "ash_hound",
+        "x": 700,
+        "y": 240
+      },
+      {
+        "id": "rustbound_revenant",
+        "x": 540,
+        "y": 240
+      }
+    ],
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "quantity": 1,
+        "x": 800,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 480,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 760,
+        "y": 224
+      },
+      {
+        "kind": "crate",
+        "x": 1080,
+        "y": 224
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_005",
+    "region": "moonlit_gate",
+    "name": "Ashen Cloister",
+    "width": 1440,
+    "height": 270,
+    "map": {
+      "x": 2,
+      "y": 1
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg005_north",
+        "dir": "north",
+        "x": 460,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "moonlit_gate_004",
+        "spawn": {
+          "x": 480,
+          "y": 230,
+          "facing": 1
+        }
+      },
+      {
+        "id": "mg005_east",
+        "dir": "east",
+        "x": 1424,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_007",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      },
+      {
+        "id": "mg005_cellar",
+        "dir": "down",
+        "x": 1300,
+        "y": 235,
+        "w": 60,
+        "h": 35,
+        "target": "moonlit_gate_006",
+        "spawn": {
+          "x": 360,
+          "y": 60,
+          "facing": 1
+        },
+        "secretId": "mg005_ember_hollow"
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 1440,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 300,
+          "y": 170,
+          "w": 96
+        },
+        {
+          "x": 900,
+          "y": 170,
+          "w": 96
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "rustbound_revenant",
+        "x": 400,
+        "y": 240
+      },
+      {
+        "id": "rustbound_revenant",
+        "x": 1000,
+        "y": 240
+      },
+      {
+        "id": "cinder_wisp",
+        "x": 700,
+        "y": 240
+      }
+    ],
+    "pickups": [
+      {
+        "itemId": "vesper_draught",
+        "quantity": 1,
+        "x": 1050,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "crate",
+        "x": 650,
+        "y": 224
+      },
+      {
+        "kind": "crate",
+        "x": 1200,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 250,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 950,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 1350,
+        "y": 224
+      }
+    ],
+    "secrets": [
+      {
+        "id": "mg005_ember_hollow",
+        "kind": "hidden_floor",
+        "x": 1300,
+        "y": 225,
+        "w": 60,
+        "h": 25,
+        "reward": {
+          "itemId": "moonstone_charm",
+          "quantity": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_006",
+    "region": "moonlit_gate",
+    "name": "Ember Hollow",
+    "width": 720,
+    "height": 270,
+    "map": {
+      "x": 3,
+      "y": 1
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg006_up",
+        "dir": "up",
+        "x": 330,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "moonlit_gate_005",
+        "spawn": {
+          "x": 1330,
+          "y": 180,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 720,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "ash_hound",
+        "x": 450,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 300,
+        "y": 224
+      }
+    ],
+    "hidden": true,
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "x": 600,
+        "y": 200,
+        "quantity": 3,
+        "chest": true
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_007",
+    "region": "moonlit_gate",
+    "name": "Sunken Chapel",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 3,
+      "y": 0
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg007_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_005",
+        "spawn": {
+          "x": 1390,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "mg007_drop",
+        "dir": "south",
+        "x": 220,
+        "y": 254,
+        "w": 80,
+        "h": 16,
+        "target": "moonlit_gate_008",
+        "spawn": {
+          "x": 240,
+          "y": 60,
+          "facing": 1
+        }
+      },
+      {
+        "id": "mg007_north",
+        "dir": "north",
+        "x": 700,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "moonlit_gate_014",
+        "spawn": {
+          "x": 360,
+          "y": 236,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 600,
+          "y": 170,
+          "w": 96
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "hollow_sentinel",
+        "x": 650,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 480,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 760,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 480,
+        "y": 110
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "mg007_font",
+        "x": 480,
+        "y": 236
+      }
+    ],
+    "teleport": true,
+    "saveRoom": true
+  },
+  {
+    "id": "moonlit_gate_008",
+    "region": "moonlit_gate",
+    "name": "Weeping Gallery",
+    "width": 480,
+    "height": 1080,
+    "map": {
+      "x": 4,
+      "y": 0
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg008_down",
+        "dir": "south",
+        "x": 200,
+        "y": 1064,
+        "w": 80,
+        "h": 16,
+        "target": "moonlit_gate_009",
+        "spawn": {
+          "x": 240,
+          "y": 60,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 1080
+        },
+        {
+          "x": 464,
+          "y": 0,
+          "w": 16,
+          "h": 1080
+        },
+        {
+          "x": 0,
+          "y": 1050,
+          "w": 480,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 80,
+          "y": 880,
+          "w": 120
+        },
+        {
+          "x": 280,
+          "y": 700,
+          "w": 120
+        },
+        {
+          "x": 80,
+          "y": 520,
+          "w": 120
+        },
+        {
+          "x": 280,
+          "y": 340,
+          "w": 120
+        },
+        {
+          "x": 150,
+          "y": 180,
+          "w": 180
+        }
+      ],
+      "hazards": [
+        {
+          "x": 180,
+          "y": 1034,
+          "w": 120,
+          "h": 16,
+          "kind": "spikes",
+          "damage": 15
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "vellum_phantom",
+        "x": 240,
+        "y": 600
+      },
+      {
+        "id": "vellum_phantom",
+        "x": 240,
+        "y": 300
+      },
+      {
+        "id": "mote_swarm",
+        "x": 240,
+        "y": 850
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 100,
+        "y": 1034
+      },
+      {
+        "kind": "urn",
+        "x": 380,
+        "y": 1034
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_009",
+    "region": "moonlit_gate",
+    "name": "Sunless Nave",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 4,
+      "y": 1
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg009_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_005",
+        "spawn": {
+          "x": 1390,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "mg009_east",
+        "dir": "east",
+        "x": 944,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_001",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      },
+      {
+        "id": "mg009_cellar",
+        "dir": "down",
+        "x": 700,
+        "y": 235,
+        "w": 60,
+        "h": 35,
+        "target": "moonlit_gate_011",
+        "spawn": {
+          "x": 360,
+          "y": 60,
+          "facing": 1
+        },
+        "secretId": "mg009_reliquary_floor"
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "hollow_sentinel",
+        "x": 600,
+        "y": 240
+      },
+      {
+        "id": "vellum_phantom",
+        "x": 300,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 150,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 850,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 480,
+        "y": 110
+      }
+    ],
+    "secrets": [
+      {
+        "id": "mg009_reliquary_floor",
+        "kind": "hidden_floor",
+        "x": 700,
+        "y": 225,
+        "w": 60,
+        "h": 25,
+        "reward": {
+          "itemId": "iron_signet",
+          "quantity": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_011",
+    "region": "moonlit_gate",
+    "name": "The Reliquary",
+    "width": 720,
+    "height": 270,
+    "map": {
+      "x": 4,
+      "y": 2
+    },
+    "music": "moonlit_gate",
+    "ambience": "wind_night",
+    "exits": [
+      {
+        "id": "mg011_up",
+        "dir": "up",
+        "x": 320,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "moonlit_gate_009",
+        "spawn": {
+          "x": 730,
+          "y": 180,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 720,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "vellum_phantom",
+        "x": 400,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 520,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 100,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 620,
+        "y": 224
+      }
+    ],
+    "hidden": true,
+    "pickups": [
+      {
+        "itemId": "vesper_draught",
+        "x": 360,
+        "y": 200
+      }
+    ]
+  },
+  {
+    "id": "moonlit_gate_014",
+    "region": "moonlit_gate",
+    "name": "Warden's Chapel",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 3,
+      "y": -1
+    },
+    "music": "boss_theme_1",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "mg014_south",
+        "dir": "south",
+        "x": 440,
+        "y": 254,
+        "w": 80,
+        "h": 16,
+        "target": "moonlit_gate_007",
+        "spawn": {
+          "x": 740,
+          "y": 60,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 380,
+          "y": 170,
+          "w": 200
+        }
+      ]
+    },
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "quantity": 1,
+        "x": 120,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 480,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 760,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 480,
+        "y": 110
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_001",
+    "region": "hollow_keep",
+    "name": "Threshold of Teeth",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 6,
+      "y": 1
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk001_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "moonlit_gate_009",
+        "spawn": {
+          "x": 910,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "hk001_east",
+        "dir": "east",
+        "x": 944,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_002",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "cinder_mastiff",
+        "x": 600,
+        "y": 240
+      },
+      {
+        "id": "ash_hound",
+        "x": 350,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 150,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 800,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 450,
+        "y": 224
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_002",
+    "region": "hollow_keep",
+    "name": "Hollowed Gallery",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 7,
+      "y": 1
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk002_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_001",
+        "spawn": {
+          "x": 930,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "hk002_east",
+        "dir": "east",
+        "x": 944,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_003",
+        "spawn": {
+          "x": 240,
+          "y": 60,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 400,
+          "y": 170,
+          "w": 160
+        }
+      ]
+    },
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "quantity": 1,
+        "x": 480,
+        "y": 200
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "hk002_brazier",
+        "x": 480,
+        "y": 236
+      }
+    ],
+    "saveRoom": true,
+    "teleport": true,
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 700,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 250,
+        "y": 224
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_003",
+    "region": "hollow_keep",
+    "name": "The Gullet",
+    "width": 480,
+    "height": 1080,
+    "map": {
+      "x": 8,
+      "y": 1
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk003_up",
+        "dir": "north",
+        "x": 200,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "hollow_keep_002",
+        "spawn": {
+          "x": 900,
+          "y": 180,
+          "facing": -1
+        }
+      },
+      {
+        "id": "hk003_down",
+        "dir": "south",
+        "x": 200,
+        "y": 1064,
+        "w": 80,
+        "h": 16,
+        "target": "hollow_keep_004",
+        "spawn": {
+          "x": 240,
+          "y": 60,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 1080
+        },
+        {
+          "x": 464,
+          "y": 0,
+          "w": 16,
+          "h": 1080
+        },
+        {
+          "x": 0,
+          "y": 1050,
+          "w": 480,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 80,
+          "y": 880,
+          "w": 120
+        },
+        {
+          "x": 280,
+          "y": 700,
+          "w": 120
+        },
+        {
+          "x": 80,
+          "y": 520,
+          "w": 120
+        },
+        {
+          "x": 280,
+          "y": 340,
+          "w": 120
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "cinder_wisp",
+        "x": 240,
+        "y": 200
+      },
+      {
+        "id": "vellum_phantom",
+        "x": 240,
+        "y": 550
+      },
+      {
+        "id": "mote_swarm",
+        "x": 240,
+        "y": 850
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "crate",
+        "x": 120,
+        "y": 1034
+      },
+      {
+        "kind": "urn",
+        "x": 360,
+        "y": 1034
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_004",
+    "region": "hollow_keep",
+    "name": "Sunken Refectory",
+    "width": 1440,
+    "height": 270,
+    "map": {
+      "x": 8,
+      "y": 2
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk004_north",
+        "dir": "north",
+        "x": 200,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "hollow_keep_003",
+        "spawn": {
+          "x": 240,
+          "y": 1020,
+          "facing": 1
+        }
+      },
+      {
+        "id": "hk004_east",
+        "dir": "east",
+        "x": 1424,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_005",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      },
+      {
+        "id": "hk004_vault",
+        "dir": "south",
+        "x": 700,
+        "y": 200,
+        "w": 32,
+        "h": 40,
+        "target": "hollow_keep_006",
+        "spawn": {
+          "x": 360,
+          "y": 60,
+          "facing": 1
+        },
+        "secretId": "hk004_moth_wall"
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 1440,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 500,
+          "y": 170,
+          "w": 96
+        },
+        {
+          "x": 1000,
+          "y": 170,
+          "w": 96
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "cinder_mastiff",
+        "x": 900,
+        "y": 240
+      },
+      {
+        "id": "rustbound_revenant",
+        "x": 400,
+        "y": 240
+      },
+      {
+        "id": "rustbound_revenant",
+        "x": 1200,
+        "y": 240
+      }
+    ],
+    "pickups": [
+      {
+        "itemId": "vesper_draught",
+        "quantity": 1,
+        "x": 1300,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "crate",
+        "x": 300,
+        "y": 224
+      },
+      {
+        "kind": "crate",
+        "x": 1100,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 150,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 700,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 720,
+        "y": 110
+      }
+    ],
+    "secrets": [
+      {
+        "id": "hk004_moth_wall",
+        "kind": "breakable_wall",
+        "x": 700,
+        "y": 150,
+        "w": 32,
+        "h": 90,
+        "reward": {
+          "itemId": "wayfarer_coat",
+          "quantity": 1
+        }
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_005",
+    "region": "hollow_keep",
+    "name": "Choir of Rust",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 9,
+      "y": 2
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk005_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_004",
+        "spawn": {
+          "x": 1390,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "hk005_east",
+        "dir": "east",
+        "x": 944,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_007",
+        "spawn": {
+          "x": 30,
+          "y": 236,
+          "facing": 1
+        }
+      },
+      {
+        "id": "hk005_south",
+        "dir": "south",
+        "x": 440,
+        "y": 254,
+        "w": 80,
+        "h": 16,
+        "target": "hollow_keep_008",
+        "spawn": {
+          "x": 360,
+          "y": 60,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "vesper_chimer",
+        "x": 600,
+        "y": 240
+      },
+      {
+        "id": "mote_swarm",
+        "x": 300,
+        "y": 240
+      },
+      {
+        "id": "mote_swarm",
+        "x": 800,
+        "y": 240
+      }
+    ],
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "quantity": 1,
+        "x": 480,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 700,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 480,
+        "y": 110
+      },
+      {
+        "kind": "crate",
+        "x": 800,
+        "y": 224
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_006",
+    "region": "hollow_keep",
+    "name": "The Moth Vault",
+    "width": 720,
+    "height": 270,
+    "map": {
+      "x": 8,
+      "y": 3
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk006_up",
+        "dir": "up",
+        "x": 320,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "hollow_keep_004",
+        "spawn": {
+          "x": 716,
+          "y": 180,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 720,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "hollow_sentinel",
+        "x": 450,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 300,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 550,
+        "y": 224
+      }
+    ],
+    "hidden": true,
+    "pickups": [
+      {
+        "itemId": "vesper_draught",
+        "x": 360,
+        "y": 200
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_007",
+    "region": "hollow_keep",
+    "name": "Matriarch's Antechamber",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 10,
+      "y": 2
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk007_west",
+        "dir": "west",
+        "x": 0,
+        "y": 170,
+        "w": 16,
+        "h": 80,
+        "target": "hollow_keep_005",
+        "spawn": {
+          "x": 930,
+          "y": 236,
+          "facing": -1
+        }
+      },
+      {
+        "id": "hk007_north",
+        "dir": "north",
+        "x": 440,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "hollow_keep_010",
+        "spawn": {
+          "x": 480,
+          "y": 236,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 400,
+          "y": 170,
+          "w": 160
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "vesper_chimer",
+        "x": 650,
+        "y": 240
+      },
+      {
+        "id": "hollow_sentinel",
+        "x": 300,
+        "y": 240
+      }
+    ],
+    "pickups": [
+      {
+        "itemId": "vesper_draught",
+        "quantity": 1,
+        "x": 200,
+        "y": 200
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 480,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 760,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 480,
+        "y": 110
+      },
+      {
+        "kind": "urn",
+        "x": 850,
+        "y": 224
+      }
+    ],
+    "checkpoints": [
+      {
+        "id": "hk007_gate",
+        "x": 480,
+        "y": 236
+      }
+    ],
+    "saveRoom": true
+  },
+  {
+    "id": "hollow_keep_008",
+    "region": "hollow_keep",
+    "name": "The Undercroft",
+    "width": 720,
+    "height": 270,
+    "map": {
+      "x": 9,
+      "y": 3
+    },
+    "music": "hollow_keep",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk008_up",
+        "dir": "up",
+        "x": 320,
+        "y": 0,
+        "w": 80,
+        "h": 24,
+        "target": "hollow_keep_005",
+        "spawn": {
+          "x": 480,
+          "y": 180,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 720,
+          "h": 30
+        }
+      ]
+    },
+    "enemies": [
+      {
+        "id": "cinder_mastiff",
+        "x": 400,
+        "y": 240
+      },
+      {
+        "id": "cinder_wisp",
+        "x": 200,
+        "y": 240
+      }
+    ],
+    "breakables": [
+      {
+        "kind": "urn",
+        "x": 150,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 360,
+        "y": 224
+      },
+      {
+        "kind": "urn",
+        "x": 570,
+        "y": 224
+      },
+      {
+        "kind": "crate",
+        "x": 650,
+        "y": 224
+      }
+    ],
+    "pickups": [
+      {
+        "itemId": "ember_tonic",
+        "x": 360,
+        "y": 200,
+        "quantity": 2,
+        "chest": true
+      }
+    ]
+  },
+  {
+    "id": "hollow_keep_010",
+    "region": "hollow_keep",
+    "name": "Sable Sanctum",
+    "width": 960,
+    "height": 270,
+    "map": {
+      "x": 10,
+      "y": 1
+    },
+    "music": "boss_theme_2",
+    "ambience": "dungeon_drone",
+    "exits": [
+      {
+        "id": "hk010_south",
+        "dir": "south",
+        "x": 440,
+        "y": 254,
+        "w": 80,
+        "h": 16,
+        "target": "hollow_keep_007",
+        "spawn": {
+          "x": 480,
+          "y": 60,
+          "facing": 1
+        }
+      }
+    ],
+    "geometry": {
+      "solids": [
+        {
+          "x": 0,
+          "y": 240,
+          "w": 960,
+          "h": 30
+        }
+      ],
+      "oneway": [
+        {
+          "x": 380,
+          "y": 170,
+          "w": 200
+        }
+      ]
+    },
+    "breakables": [
+      {
+        "kind": "candle",
+        "x": 200,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 480,
+        "y": 224
+      },
+      {
+        "kind": "candle",
+        "x": 760,
+        "y": 224
+      },
+      {
+        "kind": "chandelier",
+        "x": 480,
+        "y": 110
+      }
+    ]
+  }
+]

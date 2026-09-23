@@ -1,0 +1,77 @@
+{
+  "bosses": {
+    "chapel_warden_idle": {
+      "id": "chapel_warden",
+      "anim": "idle",
+      "file": "assets/bosses/chapel_warden_idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 2,
+      "fps": 6
+    },
+    "chapel_warden_attack": {
+      "id": "chapel_warden",
+      "anim": "attack",
+      "file": "assets/bosses/chapel_warden_attack.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 2,
+      "fps": 8
+    },
+    "chapel_warden_hurt": {
+      "id": "chapel_warden",
+      "anim": "hurt",
+      "file": "assets/bosses/chapel_warden_hurt.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 1,
+      "fps": 8
+    },
+    "chapel_warden_die": {
+      "id": "chapel_warden",
+      "anim": "die",
+      "file": "assets/bosses/chapel_warden_die.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 3,
+      "fps": 5
+    },
+    "sable_matriarch_idle": {
+      "id": "sable_matriarch",
+      "anim": "idle",
+      "file": "assets/bosses/sable_matriarch_idle.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 2,
+      "fps": 6
+    },
+    "sable_matriarch_attack": {
+      "id": "sable_matriarch",
+      "anim": "attack",
+      "file": "assets/bosses/sable_matriarch_attack.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 2,
+      "fps": 8
+    },
+    "sable_matriarch_hurt": {
+      "id": "sable_matriarch",
+      "anim": "hurt",
+      "file": "assets/bosses/sable_matriarch_hurt.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 1,
+      "fps": 8
+    },
+    "sable_matriarch_die": {
+      "id": "sable_matriarch",
+      "anim": "die",
+      "file": "assets/bosses/sable_matriarch_die.png",
+      "frameWidth": 128,
+      "frameHeight": 128,
+      "frames": 3,
+      "fps": 5
+    }
+  },
+  "frameContract": "128x128, art centered-bottom"
+}

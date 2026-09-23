@@ -1,0 +1,477 @@
+{
+  "$id": "https://outerheavenx.github.io/citadel-of-vesper/schemas/room.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "description": "Room definition. See docs/ROOM_FORMAT.md for the full format contract.",
+  "properties": {
+    "ambience": {
+      "type": "string"
+    },
+    "breakables": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "kind": {
+            "enum": [
+              "candle",
+              "crate",
+              "urn",
+              "statue",
+              "chandelier",
+              "furniture"
+            ]
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "kind",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "checkpoints": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "enemies": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "exits": {
+      "description": "Exits to other rooms. `requires` gates traversal (abilities). `spawn` is the player spawn point in the DESTINATION room.",
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "dir": {
+            "enum": [
+              "north",
+              "south",
+              "east",
+              "west",
+              "up",
+              "down"
+            ]
+          },
+          "h": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "requires": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "requiresItem": {
+            "description": "Item id the player must carry to use this exit (key-item gates). Cross-checked against item tables.",
+            "type": "string"
+          },
+          "secretId": {
+            "description": "Secret id that must be discovered before this exit activates (hidden doorways).",
+            "type": "string"
+          },
+          "hint": {
+            "description": "Hint text shown when this exit is blocked by an unmet gate.",
+            "type": "string"
+          },
+          "spawn": {
+            "additionalProperties": false,
+            "properties": {
+              "facing": {
+                "type": "number"
+              },
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y"
+            ],
+            "type": "object"
+          },
+          "target": {
+            "type": "string"
+          },
+          "w": {
+            "type": "number"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "dir",
+          "x",
+          "y",
+          "w",
+          "h",
+          "target",
+          "spawn"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "height": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "playerStart": {
+      "description": "Initial spawn for first entry (room 001). Later entries use exit spawn points.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "x": {
+          "type": "number"
+        },
+        "y": {
+          "type": "number"
+        },
+        "facing": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ]
+    },
+    "geometry": {
+      "description": "Collision geometry in room-local pixels. See docs/ROOM_FORMAT.md Geometry section.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "solids": {
+          "description": "Full-collision rects (floors, walls, ceilings).",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "w": {
+                "type": "number"
+              },
+              "h": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "w",
+              "h"
+            ]
+          }
+        },
+        "oneway": {
+          "description": "Jump-through platforms, solid from above only.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "w": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "w"
+            ]
+          }
+        },
+        "hazards": {
+          "description": "Environment damage rects. Keep minimal.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "w": {
+                "type": "number"
+              },
+              "h": {
+                "type": "number"
+              },
+              "kind": {
+                "enum": [
+                  "spikes"
+                ]
+              },
+              "damage": {
+                "type": "number"
+              }
+            },
+            "required": [
+              "x",
+              "y",
+              "w",
+              "h",
+              "kind"
+            ]
+          }
+        }
+      }
+    },
+    "hidden": {
+      "description": "Secret rooms stay off the map until discovered.",
+      "type": "boolean"
+    },
+    "id": {
+      "pattern": "^[a-z0-9_]+$",
+      "type": "string"
+    },
+    "map": {
+      "additionalProperties": false,
+      "description": "Map grid cell for the exploration map.",
+      "properties": {
+        "x": {
+          "type": "integer"
+        },
+        "y": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "x",
+        "y"
+      ],
+      "type": "object"
+    },
+    "music": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "npcs": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "pickups": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "chest": {
+            "type": "boolean"
+          },
+          "itemId": {
+            "type": "string"
+          },
+          "quantity": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "itemId",
+          "x",
+          "y"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "region": {
+      "enum": [
+        "moonlit_gate",
+        "hollow_keep",
+        "cathedral_of_ash",
+        "clockwork_gallery",
+        "crimson_library",
+        "forgotten_aqueduct",
+        "royal_conservatory",
+        "sunken_prison",
+        "astral_observatory",
+        "bell_tower",
+        "ossuary",
+        "alchemists_laboratory",
+        "forsaken_theatre",
+        "underground_reservoir",
+        "throne_of_vesper"
+      ]
+    },
+    "saveRoom": {
+      "type": "boolean"
+    },
+    "secrets": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "h": {
+            "type": "number"
+          },
+          "id": {
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "breakable_wall",
+              "hidden_floor",
+              "false_ceiling",
+              "invisible_passage",
+              "secret_switch"
+            ]
+          },
+          "reward": {
+            "additionalProperties": false,
+            "properties": {
+              "abilityId": {
+                "type": "string"
+              },
+              "itemId": {
+                "type": "string"
+              },
+              "quantity": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          },
+          "w": {
+            "type": "number"
+          },
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "x",
+          "y",
+          "w",
+          "h"
+        ],
+        "type": "object"
+      },
+      "type": "array"
+    },
+    "teleport": {
+      "type": "boolean"
+    },
+    "tilemap": {
+      "description": "Path to the Tiled JSON for this room (Wave 3+).",
+      "type": "string"
+    },
+    "width": {
+      "minimum": 1,
+      "type": "integer"
+    }
+  },
+  "required": [
+    "id",
+    "region",
+    "name",
+    "width",
+    "height",
+    "map",
+    "exits"
+  ],
+  "title": "Room",
+  "type": "object"
+}

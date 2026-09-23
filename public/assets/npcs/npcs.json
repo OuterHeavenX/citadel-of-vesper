@@ -1,0 +1,59 @@
+{
+  "npcs": {
+    "old_tam_idle": {
+      "id": "old_tam",
+      "anim": "idle",
+      "file": "assets/npcs/old_tam_idle.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 2,
+      "fps": 4
+    },
+    "sister_ansel_idle": {
+      "id": "sister_ansel",
+      "anim": "idle",
+      "file": "assets/npcs/sister_ansel_idle.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 2,
+      "fps": 4
+    },
+    "corvus_vane_idle": {
+      "id": "corvus_vane",
+      "anim": "idle",
+      "file": "assets/npcs/corvus_vane_idle.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 2,
+      "fps": 4
+    },
+    "maribel_quill_idle": {
+      "id": "maribel_quill",
+      "anim": "idle",
+      "file": "assets/npcs/maribel_quill_idle.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 2,
+      "fps": 4
+    },
+    "wren_aldervale_idle": {
+      "id": "wren_aldervale",
+      "anim": "idle",
+      "file": "assets/npcs/wren_aldervale_idle.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 2,
+      "fps": 4
+    },
+    "gideon_hollow_idle": {
+      "id": "gideon_hollow",
+      "anim": "idle",
+      "file": "assets/npcs/gideon_hollow_idle.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 2,
+      "fps": 4
+    }
+  },
+  "frameContract": "64x64, art centered-bottom"
+}

@@ -1,0 +1,74 @@
+{
+  "props": {
+    "candle": {
+      "file": "assets/environments/props/candle.png",
+      "frameWidth": 8,
+      "frameHeight": 16,
+      "frames": 2,
+      "fps": 6
+    },
+    "urn": {
+      "file": "assets/environments/props/urn.png",
+      "frameWidth": 16,
+      "frameHeight": 20,
+      "frames": 1,
+      "fps": 0
+    },
+    "chandelier": {
+      "file": "assets/environments/props/chandelier.png",
+      "frameWidth": 32,
+      "frameHeight": 24,
+      "frames": 1,
+      "fps": 0
+    },
+    "brazier": {
+      "file": "assets/environments/props/brazier.png",
+      "frameWidth": 16,
+      "frameHeight": 24,
+      "frames": 2,
+      "fps": 8
+    },
+    "door": {
+      "file": "assets/environments/props/door.png",
+      "frameWidth": 24,
+      "frameHeight": 40,
+      "frames": 2,
+      "fps": 0
+    },
+    "crate": {
+      "file": "assets/environments/props/crate.png",
+      "frameWidth": 16,
+      "frameHeight": 16,
+      "frames": 1,
+      "fps": 0
+    },
+    "barrel": {
+      "file": "assets/environments/props/barrel.png",
+      "frameWidth": 16,
+      "frameHeight": 20,
+      "frames": 1,
+      "fps": 0
+    },
+    "signpost": {
+      "file": "assets/environments/props/signpost.png",
+      "frameWidth": 16,
+      "frameHeight": 24,
+      "frames": 1,
+      "fps": 0
+    },
+    "teleport_dais": {
+      "file": "assets/environments/props/teleport_dais.png",
+      "frameWidth": 32,
+      "frameHeight": 16,
+      "frames": 2,
+      "fps": 4
+    },
+    "torch_wall": {
+      "file": "assets/environments/props/torch_wall.png",
+      "frameWidth": 16,
+      "frameHeight": 22,
+      "frames": 2,
+      "fps": 7
+    }
+  }
+}

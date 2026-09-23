@@ -1,0 +1,19 @@
+{
+  "effects": {
+    "fx_hit_spark": {
+      "file": "assets/effects/fx_hit_spark.png",
+      "width": 16,
+      "height": 16
+    },
+    "fx_slash_arc": {
+      "file": "assets/effects/fx_slash_arc.png",
+      "width": 48,
+      "height": 24
+    },
+    "fx_dust_puff": {
+      "file": "assets/effects/fx_dust_puff.png",
+      "width": 16,
+      "height": 16
+    }
+  }
+}
