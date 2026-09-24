@@ -180,6 +180,19 @@ export class TitleScene extends Phaser.Scene {
         color: disabled ? '#3a3850' : selected ? GOLD : INK,
         letterSpacing: 3,
       }).setOrigin(0.5);
+      // Touch/mouse: tapping a menu entry selects and activates it.
+      t.setInteractive({ useHandCursor: true });
+      t.on('pointerover', () => {
+        if (this._index !== i && this._mode === 'main') {
+          this._index = i;
+          this._renderMenu();
+        }
+      });
+      t.on('pointerdown', () => {
+        if (this._mode !== 'main') return;
+        this._index = i;
+        this._activateMain(key);
+      });
       this._texts.push(t);
     });
     this._renderHints();
@@ -204,8 +217,34 @@ export class TitleScene extends Phaser.Scene {
         fontSize: '13px',
         color: info.exists && !info.corrupt ? (selected ? GOLD : INK) : (selected ? '#8e2f3c' : DIM),
       }).setOrigin(0.5);
+      // Touch/mouse: tapping a slot loads it (if valid); ‹ BACK returns.
+      t.setInteractive({ useHandCursor: true });
+      t.on('pointerover', () => {
+        if (this._slotIndex !== i && this._mode === 'slots') {
+          this._slotIndex = i;
+          this._renderSlots();
+        }
+      });
+      t.on('pointerdown', () => {
+        if (this._mode !== 'slots') return;
+        this._slotIndex = i;
+        if (info.exists && !info.corrupt) this._loadSlot(info.slot);
+        else this._renderSlots();
+      });
       this._texts.push(t);
     });
+    // Touch/mouse back affordance (keyboard/gamepad use cancel/Esc).
+    const back = this.add.text(width / 2, 168 + this._slotInfos.length * 24 + 8, '‹ BACK', {
+      fontFamily: 'Georgia, serif', fontSize: '13px', color: DIM, letterSpacing: 3,
+    }).setOrigin(0.5);
+    back.setInteractive({ useHandCursor: true });
+    back.on('pointerover', () => back.setColor(GOLD));
+    back.on('pointerout', () => back.setColor(DIM));
+    back.on('pointerdown', () => {
+      this._mode = 'main';
+      this._renderMenu();
+    });
+    this._texts.push(back);
     this._renderHints();
   }
 
