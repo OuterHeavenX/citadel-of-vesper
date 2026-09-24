@@ -1,0 +1,24 @@
+{
+  "layers": {
+    "bg_moonlit_gate_far": {
+      "file": "assets/environments/bg_moonlit_gate_far.png",
+      "width": 480,
+      "height": 270
+    },
+    "bg_moonlit_gate_near": {
+      "file": "assets/environments/bg_moonlit_gate_near.png",
+      "width": 480,
+      "height": 270
+    },
+    "bg_hollow_keep_far": {
+      "file": "assets/environments/bg_hollow_keep_far.png",
+      "width": 480,
+      "height": 270
+    },
+    "bg_hollow_keep_near": {
+      "file": "assets/environments/bg_hollow_keep_near.png",
+      "width": 480,
+      "height": 270
+    }
+  }
+}

@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0b0d1a" />
+    <meta name="description" content="The Citadel of Vesper — an original 32-bit gothic action-RPG / metroidvania for the browser." />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="manifest" href="./manifest.json" />
+    <title>The Citadel of Vesper</title>
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #0b0d1a;
+        color: #d8d4e8;
+        height: 100%;
+        overflow: hidden;
+        font-family: Georgia, 'Times New Roman', serif;
+      }
+      #game {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      canvas {
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+      }
+      #boot-error {
+        display: none;
+        max-width: 640px;
+        margin: 10vh auto;
+        padding: 24px;
+        border: 1px solid #5a3b5c;
+        background: #141224;
+        border-radius: 6px;
+      }
+      #boot-error-detail {
+        white-space: pre-wrap;
+        font-size: 12px;
+        color: #8f8aa8;
+        max-height: 30vh;
+        overflow: auto;
+      }
+      #boot-loading {
+        color: #5c5878;
+        font-style: italic;
+        letter-spacing: 2px;
+      }
+    </style>
+    <script type="module" crossorigin src="/citadel-of-vesper/assets/index-B1GIT9WJ.js"></script>
+    <link rel="modulepreload" crossorigin href="/citadel-of-vesper/assets/phaser-0RJB29YE.js">
+  </head>
+  <body>
+    <div id="game">
+      <div id="boot-loading">Entering the Citadel…</div>
+    </div>
+    <div id="boot-error">
+      <h2>The Citadel could not be opened</h2>
+      <p>Something went wrong while starting the game. Details have been logged to the console.</p>
+      <pre id="boot-error-detail"></pre>
+    </div>
+  </body>
+</html>

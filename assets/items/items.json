@@ -1,0 +1,101 @@
+{
+  "items": {
+    "coin": {
+      "file": "assets/items/coin.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 2
+    },
+    "heart": {
+      "file": "assets/items/heart.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "mana_shard": {
+      "file": "assets/items/mana_shard.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "key": {
+      "file": "assets/items/key.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "ember_tonic": {
+      "file": "assets/items/ember_tonic.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "vesper_draught": {
+      "file": "assets/items/vesper_draught.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "ashward_draught": {
+      "file": "assets/items/ashward_draught.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "waybread": {
+      "file": "assets/items/waybread.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "wayfarer_coat": {
+      "file": "assets/items/wayfarer_coat.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "dusk_hood": {
+      "file": "assets/items/dusk_hood.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "moonstone_charm": {
+      "file": "assets/items/moonstone_charm.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "iron_signet": {
+      "file": "assets/items/iron_signet.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "moonrise_leap": {
+      "file": "assets/items/moonrise_leap.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "gale_dash": {
+      "file": "assets/items/gale_dash.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "cinder_wave": {
+      "file": "assets/items/cinder_wave.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    },
+    "mending_pulse": {
+      "file": "assets/items/mending_pulse.png",
+      "frameWidth": 32,
+      "frameHeight": 32,
+      "frames": 1
+    }
+  },
+  "iconContract": "32x32"
+}

@@ -1,0 +1,210 @@
+{
+  "tileset": "moonlit_gate",
+  "file": "assets/tilesets/moonlit_gate_tiles.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "columns": 8,
+  "tileCount": 40,
+  "tiles": {
+    "stone_brick_a": {
+      "index": 0,
+      "x": 0,
+      "y": 0
+    },
+    "stone_brick_b": {
+      "index": 1,
+      "x": 16,
+      "y": 0
+    },
+    "stone_brick_c": {
+      "index": 2,
+      "x": 32,
+      "y": 0
+    },
+    "stone_brick_dark": {
+      "index": 3,
+      "x": 48,
+      "y": 0
+    },
+    "stone_brick_moss": {
+      "index": 4,
+      "x": 64,
+      "y": 0
+    },
+    "stone_brick_cracked": {
+      "index": 5,
+      "x": 80,
+      "y": 0
+    },
+    "stone_inner": {
+      "index": 6,
+      "x": 96,
+      "y": 0
+    },
+    "stone_inner_dark": {
+      "index": 7,
+      "x": 112,
+      "y": 0
+    },
+    "plat_top_left": {
+      "index": 8,
+      "x": 0,
+      "y": 16
+    },
+    "plat_top": {
+      "index": 9,
+      "x": 16,
+      "y": 16
+    },
+    "plat_top_right": {
+      "index": 10,
+      "x": 32,
+      "y": 16
+    },
+    "plat_edge_left": {
+      "index": 11,
+      "x": 48,
+      "y": 16
+    },
+    "plat_edge_right": {
+      "index": 12,
+      "x": 64,
+      "y": 16
+    },
+    "plat_bottom_left": {
+      "index": 13,
+      "x": 80,
+      "y": 16
+    },
+    "plat_bottom": {
+      "index": 14,
+      "x": 96,
+      "y": 16
+    },
+    "plat_bottom_right": {
+      "index": 15,
+      "x": 112,
+      "y": 16
+    },
+    "arch_left": {
+      "index": 16,
+      "x": 0,
+      "y": 32
+    },
+    "arch_top": {
+      "index": 17,
+      "x": 16,
+      "y": 32
+    },
+    "arch_right": {
+      "index": 18,
+      "x": 32,
+      "y": 32
+    },
+    "window_arch": {
+      "index": 19,
+      "x": 48,
+      "y": 32
+    },
+    "pillar_top": {
+      "index": 20,
+      "x": 64,
+      "y": 32
+    },
+    "pillar_mid": {
+      "index": 21,
+      "x": 80,
+      "y": 32
+    },
+    "pillar_base": {
+      "index": 22,
+      "x": 96,
+      "y": 32
+    },
+    "banner": {
+      "index": 23,
+      "x": 112,
+      "y": 32
+    },
+    "step_up": {
+      "index": 24,
+      "x": 0,
+      "y": 48
+    },
+    "step_down": {
+      "index": 25,
+      "x": 16,
+      "y": 48
+    },
+    "rubble": {
+      "index": 26,
+      "x": 32,
+      "y": 48
+    },
+    "grass_tuft": {
+      "index": 27,
+      "x": 48,
+      "y": 48
+    },
+    "wall_bracket": {
+      "index": 28,
+      "x": 64,
+      "y": 48
+    },
+    "floor_slab_a": {
+      "index": 29,
+      "x": 80,
+      "y": 48
+    },
+    "floor_slab_b": {
+      "index": 30,
+      "x": 96,
+      "y": 48
+    },
+    "rose_window": {
+      "index": 31,
+      "x": 112,
+      "y": 48
+    },
+    "stone_inner_cracked": {
+      "index": 32,
+      "x": 0,
+      "y": 64
+    },
+    "stone_inner_moss": {
+      "index": 33,
+      "x": 16,
+      "y": 64
+    },
+    "plat_top_cracked": {
+      "index": 34,
+      "x": 32,
+      "y": 64
+    },
+    "moss_patch": {
+      "index": 35,
+      "x": 48,
+      "y": 64
+    },
+    "rubble_big": {
+      "index": 36,
+      "x": 64,
+      "y": 64
+    },
+    "floor_slab_cracked": {
+      "index": 37,
+      "x": 80,
+      "y": 64
+    },
+    "arch_broken": {
+      "index": 38,
+      "x": 96,
+      "y": 64
+    },
+    "grass_tuft_b": {
+      "index": 39,
+      "x": 112,
+      "y": 64
+    }
+  }
+}

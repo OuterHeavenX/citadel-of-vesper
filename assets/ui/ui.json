@@ -1,0 +1,58 @@
+{
+  "ui": {
+    "panel_corner_tl": {
+      "file": "assets/ui/panel_corner_tl.png",
+      "slice": 8
+    },
+    "panel_corner_tr": {
+      "file": "assets/ui/panel_corner_tr.png",
+      "slice": 8
+    },
+    "panel_corner_bl": {
+      "file": "assets/ui/panel_corner_bl.png",
+      "slice": 8
+    },
+    "panel_corner_br": {
+      "file": "assets/ui/panel_corner_br.png",
+      "slice": 8
+    },
+    "panel_edge_h": {
+      "file": "assets/ui/panel_edge_h.png",
+      "slice": 0
+    },
+    "panel_edge_v": {
+      "file": "assets/ui/panel_edge_v.png",
+      "slice": 0
+    },
+    "panel_center": {
+      "file": "assets/ui/panel_center.png",
+      "slice": 0
+    },
+    "button_normal": {
+      "file": "assets/ui/button_normal.png",
+      "width": 64,
+      "height": 20
+    },
+    "button_hover": {
+      "file": "assets/ui/button_hover.png",
+      "width": 64,
+      "height": 20
+    },
+    "button_pressed": {
+      "file": "assets/ui/button_pressed.png",
+      "width": 64,
+      "height": 20
+    },
+    "cursor": {
+      "file": "assets/ui/cursor.png",
+      "width": 12,
+      "height": 12
+    },
+    "logo_vesper": {
+      "file": "assets/ui/logo_vesper.png",
+      "width": 320,
+      "height": 120,
+      "note": "emblem mark, no wordmark"
+    }
+  }
+}

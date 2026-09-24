@@ -1,0 +1,235 @@
+{
+  "tileset": "hollow_keep",
+  "file": "assets/tilesets/hollow_keep_tiles.png",
+  "tileWidth": 16,
+  "tileHeight": 16,
+  "columns": 8,
+  "tileCount": 40,
+  "tiles": {
+    "basalt_brick_a": {
+      "index": 0,
+      "x": 0,
+      "y": 0
+    },
+    "basalt_brick_b": {
+      "index": 1,
+      "x": 16,
+      "y": 0
+    },
+    "basalt_brick_c": {
+      "index": 2,
+      "x": 32,
+      "y": 0
+    },
+    "basalt_dark": {
+      "index": 3,
+      "x": 48,
+      "y": 0
+    },
+    "basalt_cracked": {
+      "index": 4,
+      "x": 64,
+      "y": 0
+    },
+    "basalt_rubble": {
+      "index": 5,
+      "x": 80,
+      "y": 0
+    },
+    "iron_plate": {
+      "index": 6,
+      "x": 96,
+      "y": 0
+    },
+    "iron_trim_h": {
+      "index": 7,
+      "x": 112,
+      "y": 0
+    },
+    "plat_top_left_iron": {
+      "index": 8,
+      "x": 0,
+      "y": 16
+    },
+    "plat_top_iron": {
+      "index": 9,
+      "x": 16,
+      "y": 16
+    },
+    "plat_top_right_iron": {
+      "index": 10,
+      "x": 32,
+      "y": 16
+    },
+    "plat_edge_left": {
+      "index": 11,
+      "x": 48,
+      "y": 16
+    },
+    "plat_edge_right": {
+      "index": 12,
+      "x": 64,
+      "y": 16
+    },
+    "plat_bottom_left": {
+      "index": 13,
+      "x": 80,
+      "y": 16
+    },
+    "plat_bottom": {
+      "index": 14,
+      "x": 96,
+      "y": 16
+    },
+    "plat_bottom_right": {
+      "index": 15,
+      "x": 112,
+      "y": 16
+    },
+    "beam_h": {
+      "index": 16,
+      "x": 0,
+      "y": 32
+    },
+    "beam_v": {
+      "index": 17,
+      "x": 16,
+      "y": 32
+    },
+    "beam_joint": {
+      "index": 18,
+      "x": 32,
+      "y": 32
+    },
+    "arch_broken_left": {
+      "index": 19,
+      "x": 48,
+      "y": 32
+    },
+    "arch_broken_right": {
+      "index": 20,
+      "x": 64,
+      "y": 32
+    },
+    "grate": {
+      "index": 21,
+      "x": 80,
+      "y": 32
+    },
+    "chain_top": {
+      "index": 22,
+      "x": 96,
+      "y": 32
+    },
+    "chain_mid": {
+      "index": 23,
+      "x": 112,
+      "y": 32
+    },
+    "carved_slab": {
+      "index": 24,
+      "x": 0,
+      "y": 48
+    },
+    "tattered_banner": {
+      "index": 25,
+      "x": 16,
+      "y": 48
+    },
+    "ash_pile": {
+      "index": 26,
+      "x": 32,
+      "y": 48
+    },
+    "bones": {
+      "index": 27,
+      "x": 48,
+      "y": 48
+    },
+    "sconce_ember": {
+      "index": 28,
+      "x": 64,
+      "y": 48
+    },
+    "floor_basalt_a": {
+      "index": 29,
+      "x": 80,
+      "y": 48
+    },
+    "floor_basalt_b": {
+      "index": 30,
+      "x": 96,
+      "y": 48
+    },
+    "collapsed_pillar": {
+      "index": 31,
+      "x": 112,
+      "y": 48
+    },
+    "basalt_cracked_b": {
+      "index": 32,
+      "x": 0,
+      "y": 64
+    },
+    "basalt_rubble_b": {
+      "index": 33,
+      "x": 16,
+      "y": 64
+    },
+    "ash_patch": {
+      "index": 34,
+      "x": 32,
+      "y": 64
+    },
+    "ember_crack": {
+      "index": 35,
+      "x": 48,
+      "y": 64
+    },
+    "bones_scattered": {
+      "index": 36,
+      "x": 64,
+      "y": 64
+    },
+    "plat_top_iron_cracked": {
+      "index": 37,
+      "x": 80,
+      "y": 64
+    },
+    "floor_basalt_cracked": {
+      "index": 38,
+      "x": 96,
+      "y": 64
+    },
+    "chain_loose": {
+      "index": 39,
+      "x": 112,
+      "y": 64
+    },
+    "plat_top_left": {
+      "index": 8,
+      "x": 0,
+      "y": 16
+    },
+    "plat_top": {
+      "index": 9,
+      "x": 16,
+      "y": 16
+    },
+    "plat_top_right": {
+      "index": 10,
+      "x": 32,
+      "y": 16
+    },
+    "stone_inner": {
+      "index": 0,
+      "x": 0,
+      "y": 0
+    },
+    "stone_brick_cracked": {
+      "index": 4,
+      "x": 64,
+      "y": 0
+    }
+  }
+}

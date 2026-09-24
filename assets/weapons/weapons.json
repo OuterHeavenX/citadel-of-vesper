@@ -1,0 +1,15 @@
+{
+  "weapons": {
+    "recruit_blade": {
+      "file": "assets/weapons/recruit_blade.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    },
+    "moonsteel_sabre": {
+      "file": "assets/weapons/moonsteel_sabre.png",
+      "frameWidth": 32,
+      "frameHeight": 32
+    }
+  },
+  "iconContract": "32x32"
+}
