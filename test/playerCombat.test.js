@@ -218,4 +218,104 @@ describe('PlayerCombat', () => {
     expect(combat.kind).toBe('player');
     expect(combat.getMaxHp()).toBe(60);
   });
+
+  // ------------------------------------------- swing identity + slash fx
+
+  it('centers the hitbox at chest height above the (feet-anchored) position', () => {
+    combat.tryAttack();
+    combat.update(0.07);
+    const spec = hitboxes.spawnHitbox.mock.calls[0][1];
+    expect(spec.offsetY).toBe(tuning.combat.attackHitboxOffsetY);
+    expect(spec.offsetY).toBeLessThan(0); // above the feet
+  });
+
+  it('every swing gets a new serial; chained swings advance the combo step', () => {
+    expect(combat.getAttackSerial()).toBe(0);
+    combat.tryAttack();
+    expect(combat.getAttackSerial()).toBe(1);
+    expect(combat.getComboStep()).toBe(0);
+    combat.update(0.06 + ACTIVE + 0.2);
+    combat.tryAttack(); // buffered
+    combat.update(0.13); // chained
+    expect(combat.getAttackSerial()).toBe(2);
+    expect(combat.getComboStep()).toBe(1);
+  });
+
+  it('the combo resets after the combo window and when hit', () => {
+    combat.tryAttack();
+    combat.update(1); // swing ends
+    combat.update(tuning.combat.comboWindow + 0.05); // idle past the window
+    combat.tryAttack();
+    expect(combat.getComboStep()).toBe(0);
+    combat.update(1);
+    combat.tryAttack(); // inside the window -> continues
+    expect(combat.getComboStep()).toBe(1);
+    combat.cancelOnHit();
+    combat.tryAttack(); // getting hit broke the combo
+    expect(combat.getComboStep()).toBe(0);
+  });
+
+  it("plain weapons never emit 'player:slashed' (their clip draws the blade)", () => {
+    const seen = vi.fn();
+    eventBus.on('player:slashed', seen);
+    combat.tryAttack();
+    combat.update(0.07);
+    expect(hitboxes.spawnHitbox).toHaveBeenCalledTimes(1);
+    expect(seen).not.toHaveBeenCalled();
+  });
+
+  it("the Pale Hour Blade emits 'player:slashed' as the active window opens", () => {
+    gameState.equip('weapon', 'pale_hour_blade');
+    const seen = vi.fn();
+    eventBus.on('player:slashed', seen);
+    combat.tryAttack();
+    expect(seen).not.toHaveBeenCalled(); // anticipation: no slash yet
+    combat.update(0.03);
+    expect(combat.getPhase()).toBe('active');
+    expect(seen).toHaveBeenCalledTimes(1);
+    const p = seen.mock.calls[0][0];
+    expect(p).toMatchObject({
+      weaponId: 'pale_hour_blade',
+      texture: 'fx_slash_quick',
+      facing: 1,
+      comboStep: 0,
+      flipY: false,
+      offsetX: tuning.combat.slashAnchorX,
+      offsetY: tuning.combat.slashAnchorY,
+    });
+    expect(p.duration).toBeGreaterThan(0);
+    expect(p.duration).toBeLessThan(0.3); // a quick slash
+  });
+
+  it('alternates the slash direction on chained swings and mirrors facing', () => {
+    gameState.equip('weapon', 'pale_hour_blade');
+    player._facing = false;
+    const seen = vi.fn();
+    eventBus.on('player:slashed', seen);
+    combat.tryAttack();
+    combat.update(0.03); // active
+    combat.tryAttack(); // buffer the next swing (0.15s window)
+    // ~16ms frames: recovery ends inside the buffer window -> chained swing
+    for (let i = 0; i < 20 && seen.mock.calls.length < 2; i++) combat.update(0.016);
+    expect(seen).toHaveBeenCalledTimes(2);
+    expect(seen.mock.calls[0][0]).toMatchObject({ facing: -1, comboStep: 0, flipY: false });
+    expect(seen.mock.calls[1][0]).toMatchObject({ facing: -1, comboStep: 1, flipY: true });
+  });
+
+  it('the Pale Hour Blade swing is much quicker than the Recruit\'s Blade', () => {
+    const total = () => {
+      combat.tryAttack();
+      let t = 0;
+      while (combat.isAttacking() && t < 2) {
+        combat.update(0.005);
+        t += 0.005;
+      }
+      return t;
+    };
+    const recruit = total();
+    gameState.equip('weapon', 'pale_hour_blade');
+    const quick = total();
+    expect(quick).toBeLessThan(0.25);
+    expect(quick).toBeLessThan(recruit * 0.5);
+  });
 });

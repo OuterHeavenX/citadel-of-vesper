@@ -130,7 +130,12 @@ export class InputManager {
     this.gamepadBindings = structuredClone(DEFAULT_GAMEPAD_BINDINGS);
 
     this._keyDown = new Set(); // KeyboardEvent.code currently held
+    // Presses seen since the last update(): a tap whose keydown AND keyup
+    // both land between two frames still counts as justPressed (fast
+    // mashing — e.g. the Pale Hour Blade's quick slashes — never drops).
+    this._keyTapped = new Set(); // KeyboardEvent.code pressed since last update
     this._touchDown = new Map(); // action -> bool (virtual buttons)
+    this._touchTapped = new Set(); // actions touched down since last update
     this._padButtons = []; // bool[] snapshot from last poll
     this._padAxes = []; // number[] snapshot from last poll
     this._padId = '';
@@ -158,6 +163,7 @@ export class InputManager {
       if (PREVENT_DEFAULT_CODES.has(e.code)) e.preventDefault();
       if (!e.repeat) {
         this._keyDown.add(e.code);
+        this._keyTapped.add(e.code);
         this._setDevice(Devices.KEYBOARD);
       }
     });
@@ -167,7 +173,9 @@ export class InputManager {
     // Stuck-key insurance: losing focus releases everything.
     window.addEventListener('blur', () => {
       this._keyDown.clear();
+      this._keyTapped.clear();
       this._touchDown.clear();
+      this._touchTapped.clear();
     });
 
     window.addEventListener('gamepadconnected', (e) => {
@@ -196,10 +204,24 @@ export class InputManager {
     for (const action of Actions) {
       const was = this._down.get(action);
       const is = this._isActionDown(action);
+      const tapped = this._wasTapped(action);
       this._down.set(action, is);
-      this._justPressed.set(action, is && !was);
+      this._justPressed.set(action, (is && !was) || tapped);
       this._justReleased.set(action, !is && was);
     }
+    this._keyTapped.clear();
+    this._touchTapped.clear();
+  }
+
+  /** @private pressed since the last update (even if already released) */
+  _wasTapped(action) {
+    if (this._touchTapped.has(action)) return true;
+    if (this._keyTapped.size === 0) return false;
+    const codes = this.keyboardBindings[action] ?? [];
+    for (const code of codes) {
+      if (this._keyTapped.has(code)) return true;
+    }
+    return false;
   }
 
   /** @private */
@@ -356,6 +378,7 @@ export class InputManager {
    */
   setTouchAction(action, down) {
     if (!Actions.includes(action)) return;
+    if (down && !this._touchDown.get(action)) this._touchTapped.add(action);
     this._touchDown.set(action, !!down);
     if (down) this._setDevice(Devices.TOUCH);
   }

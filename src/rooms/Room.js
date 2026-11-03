@@ -94,6 +94,10 @@ export class Room {
     this._ambience = null;
     /** hazard id -> last damage time (s) */
     this._hazardCd = new Map();
+    /** flag-gated pickups waiting for their story flag: [{ p, i }] */
+    this._gatedPickups = [];
+    /** 'flag:set' unsubscribe while gated pickups wait (null otherwise) */
+    this._unsubFlag = null;
   }
 
   // ------------------------------------------------------------------ build
@@ -129,22 +133,69 @@ export class Room {
       );
     }
 
-    (def.pickups ?? []).forEach((p, i) => {
-      const chestId = `chest:${this.roomId}:${i}`;
-      if (p.chest && gameState.data.chestStates[chestId]) return; // already looted
-      const pickup = new Pickup(scene, p.itemId, p.x, p.y, {
-        gameState,
-        quantity: p.quantity ?? 1,
-        temporary: false,
-        onCollect: p.chest ? () => gameState.setChestState(chestId, true) : null,
-      });
-      this.pickups.push(pickup);
-    });
+    this._buildPickups(def.pickups ?? []);
 
     this._spawnEnemies(def.enemies ?? []);
     this._buildParallax();
     this._buildAmbience();
     return this;
+  }
+
+  /**
+   * @private data/rooms.json pickups. Looted chests stay gone; story-gated
+   * pickups (`requiresFlag`, e.g. the Pale Hour Blade after the Matriarch)
+   * wait for their flag and appear live if it is set while the room is loaded.
+   * @param {object[]} list
+   */
+  _buildPickups(list) {
+    list.forEach((p, i) => {
+      const chestId = `chest:${this.roomId}:${i}`;
+      if (p.chest && gameState.data.chestStates[chestId]) return; // already looted
+      if (p.requiresFlag && !gameState.getFlag(p.requiresFlag)) {
+        this._gatedPickups.push({ p, i });
+        return;
+      }
+      this._spawnRoomPickup(p, i);
+    });
+    if (this._gatedPickups.length > 0 && !this._unsubFlag) {
+      this._unsubFlag = eventBus.on('flag:set', ({ flag, value } = {}) => this._onFlagSet(flag, value));
+    }
+  }
+
+  /** @private spawn one data/rooms.json pickup (index i keys its chest state) */
+  _spawnRoomPickup(p, i) {
+    const chestId = `chest:${this.roomId}:${i}`;
+    const pickup = new Pickup(this.scene, p.itemId, p.x, p.y, {
+      gameState,
+      quantity: p.quantity ?? 1,
+      temporary: false,
+      onCollect: p.chest ? () => gameState.setChestState(chestId, true) : null,
+    });
+    this.pickups.push(pickup);
+    return pickup;
+  }
+
+  /** @private a story flag flipped while this room is live: reveal its pickups */
+  _onFlagSet(flag, value) {
+    if (!value || this._gatedPickups.length === 0) return;
+    const ready = this._gatedPickups.filter(({ p }) => p.requiresFlag === flag);
+    if (ready.length === 0) return;
+    this._gatedPickups = this._gatedPickups.filter(({ p }) => p.requiresFlag !== flag);
+    for (const { p, i } of ready) {
+      try {
+        this._spawnRoomPickup(p, i);
+        this.ctx?.effectsManager?.burst?.(p.x, p.y, 'levelup'); // reveal shimmer
+      } catch { /* a reveal must never break the room */ }
+    }
+    if (this._gatedPickups.length === 0) this._releaseFlagWatch();
+  }
+
+  /** @private stop listening for gated-pickup flags */
+  _releaseFlagWatch() {
+    if (this._unsubFlag) {
+      try { this._unsubFlag(); } catch { /* noop */ }
+      this._unsubFlag = null;
+    }
   }
 
   // ------------------------------------------------------------------ update
@@ -199,6 +250,8 @@ export class Room {
       try { p.destroy(); } catch { /* never break teardown */ }
     }
     this.pickups = [];
+    this._gatedPickups = [];
+    this._releaseFlagWatch();
     for (const b of this.breakables) {
       try { b.destroy(); } catch { /* never break teardown */ }
     }

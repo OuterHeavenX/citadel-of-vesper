@@ -361,6 +361,11 @@
           },
           "y": {
             "type": "number"
+          },
+          "requiresFlag": {
+            "description": "Story flag (gameState.flags) that must be truthy before the pickup appears, e.g. 'boss_defeated_sable_matriarch'. If the flag is set while the room is loaded, the pickup is revealed live.",
+            "minLength": 1,
+            "type": "string"
           }
         },
         "required": [

@@ -86,6 +86,13 @@ export const Events = Object.freeze({
   'player:leveledUp': { level: 'number', stats: 'object' },
   'player:xpGained': { amount: 'number', total: 'number' },
   'player:abilityUnlocked': { abilityId: 'string' },
+  // A slashFx weapon's active window opened (src/effects/SlashFx.js draws the
+  // detached crescent; offsetX/Y = pivot relative to the player's feet).
+  'player:slashed': {
+    weaponId: 'string', texture: 'string', facing: 'number', comboStep: 'number',
+    flipY: 'boolean', duration: 'number', offsetX: 'number', offsetY: 'number',
+    tint: 'number', scale: 'number',
+  },
 
   // ---- combat ----
   'combat:hitLanded': { attacker: 'string', target: 'string', amount: 'number', critical: 'boolean' },

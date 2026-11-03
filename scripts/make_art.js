@@ -442,6 +442,15 @@ const LUCIEN_ANIMS = {
       slash: { cx: 16 + 8 + 4, cy: 18, r: 24, a0: -75, a1: 35 } },
     { lean: 1, armSwingF: 20, armSwingB: 0, swordA: -20, swordLen: 17, stride: 4, coatSway: 1 },
   ]},
+  // Pale Hour Blade — a quick slash where the blade is NEVER drawn: the arm
+  // whips through and the detached crescent (effects/fx_slash_quick.png,
+  // spawned at runtime by src/effects/SlashFx.js) is the only visible cut.
+  // swordA: null = empty hand. Windup → strike → follow-through.
+  attack_quick: { fps: 18, w: 48, h: 48, ox: 8, frames: [
+    { lean: -2, headDX: -1, armSwingF: -150, armSwingB: -14, swordA: null, stride: 4, coatSway: -2 },
+    { lean: 5, headDX: 1, armSwingF: 96, armSwingB: 16, swordA: null, stride: 5, coatSway: 3, coatFlare: 1 },
+    { lean: 3, headDX: 1, armSwingF: 58, armSwingB: 8, swordA: null, stride: 5, coatSway: 2, coatFlare: 1 },
+  ]},
 };
 
 function buildPlayer() {
@@ -1290,6 +1299,16 @@ function weaponIcon(kind) {
     px.line(6, 4, 20, 0, PAL.blade, 3);
     px.line(6, 3, 20, -1, PAL.bladeH, 1);
     px.tri(20, -1, 23, 1, 20, 2, PAL.blade);
+  } else if (kind === 'pale_hour_blade') { // slender duelling blade, crescent guard, pale-hour gem
+    for (let i = 0; i < 8; i++) px.px(9 + i * 2, 7 - i * 0.66, PAL.slash, 60); // faint cut-trail glow
+    px.line(2, 7, 5, 6, PAL.grip, 2);                 // dark grip (in line with the blade)
+    px.px(3, 6, PAL.lining); px.px(4, 7, PAL.liningD); // plum wrap
+    px.px(1, 7, PAL.moon); px.px(1, 8, PAL.moonDim); px.px(0, 7, PAL.silver); // pale-hour pommel gem
+    px.line(5, 2, 7, 8, PAL.silver, 1);               // crescent guard (perpendicular to blade)
+    px.px(5, 2, PAL.bladeH); px.px(7, 8, PAL.bladeH); px.px(4, 3, PAL.silver);
+    px.line(7, 5, 22, 0, PAL.blade, 2);               // thin blade
+    px.line(7, 4, 22, -1, PAL.bladeH, 1);             // white edge
+    px.px(23, 0, PAL.bladeH);
   } else { // moonsteel sabre: curved, moonlit edge
     px.glowDisc(14, 5, 8, PAL.mana, 40);
     for (let i = 0; i <= 12; i++) {
@@ -1403,7 +1422,7 @@ function buildItems() {
   }
   emitJSON('items/items.json', index);
   const windex = { weapons: {}, iconContract: '32x32' };
-  for (const id of ['recruit_blade', 'moonsteel_sabre']) {
+  for (const id of ['recruit_blade', 'moonsteel_sabre', 'pale_hour_blade']) {
     const icon = pad32(weaponIcon(id));
     const rel = `weapons/${id}.png`;
     emit(icon, rel, { kind: 'weapon' });
@@ -1642,6 +1661,66 @@ function fxSlashArc() {
   drawSlashArc(px, 24, 36, 26, -80, 30);
   return px;
 }
+/* fx_slash_quick — the Pale Hour Blade's detached crescent (5 frames, 96x72).
+ * Authored facing right; the arc pivots on Lucien's shoulder at
+ * SLASH_QUICK.pivot and sweeps from overhead (a0) down through forward to
+ * low-front (a1). Sharp bright outer cutting edge, thickening inward to a
+ * dithered moon-blue falloff. Frames: lead sliver → half arc → full crescent
+ * (impact) → trailing tail erodes → fading wisps + motes. src/effects/SlashFx.js
+ * reads the same pivot via assets/effects/effects.json. */
+const SLASH_QUICK = { w: 96, h: 72, pivot: [30, 38], rx: 34, ry: 27, a0: -95, a1: 55, thick: 11 };
+function fxSlashQuickFrame(f) {
+  const S = SLASH_QUICK, px = new Px(S.w, S.h), [cx, cy] = S.pivot;
+  // [head reach (0..1 of arc), tail start, thickness mult, brightness]
+  const spec = [[0.38, 0.0, 0.55, 1], [0.78, 0.0, 0.9, 1], [1.0, 0.0, 1.0, 1], [1.0, 0.42, 0.7, 0.8], [1.0, 0.74, 0.4, 0.55]][f];
+  const [head, tail, tmul, bright] = spec;
+  const edgeW = hex('#ffffff'), pale = PAL.slash, moon = hex('#8fb0ee'), deep = hex('#4a64b4');
+  const span = S.a1 - S.a0;
+  for (let y = 0; y < S.h; y++) for (let x = 0; x < S.w; x++) {
+    // normalized elliptical polar coords around the pivot
+    const ex = (x + 0.5 - cx) / S.rx, ey = (y + 0.5 - cy) / S.ry;
+    const ang = Math.atan2(ey, ex) * 180 / Math.PI;
+    const t = (ang - S.a0) / span;
+    if (t < tail || t > head) continue;
+    const rn = Math.sqrt(ex * ex + ey * ey);           // 1 == on the outer edge
+    // taper: thin at both ends, fattest just behind the leading head
+    const local = (t - tail) / Math.max(0.001, head - tail);
+    const prof = Math.pow(Math.sin(Math.PI * Math.min(1, local * 0.92 + 0.04)), 0.7);
+    const th = (S.thick * tmul * prof) / ((S.rx + S.ry) / 2);
+    if (rn > 1 || rn < 1 - th || th <= 0) continue;
+    const u = (1 - rn) / th;                           // 0 outer edge → 1 inner edge
+    // trailing tail fades out (frames 3-4 also fade overall)
+    const fade = Math.min(1, local * 3.2) * bright;
+    let c, a;
+    if (u < 0.22) { c = edgeW; a = 255; }
+    else if (u < 0.5) { c = pale; a = 235; }
+    else if (u < 0.78) { c = moon; a = 200; }
+    else { if ((x + y + f) & 1) continue; c = deep; a = 150; } // dithered inner falloff
+    px.px(x, y, c, Math.round(a * fade));
+  }
+  // faint outer echo just outside the cutting edge on the strongest frames
+  if (f === 1 || f === 2) {
+    for (let a = S.a0 + span * 0.3; a <= S.a0 + span * head; a += 2.2) {
+      const q = a * Math.PI / 180;
+      px.blend(cx + Math.cos(q) * (S.rx + 3), cy + Math.sin(q) * (S.ry + 3), pale, f === 2 ? 110 : 70);
+    }
+  }
+  // drifting motes as the cut dissolves
+  if (f >= 3) {
+    const R = rng(311 + f);
+    for (let i = 0; i < (f === 3 ? 9 : 6); i++) {
+      const t2 = S.a0 + span * (tail + R() * (1 - tail)), q = t2 * Math.PI / 180;
+      const out = 1 + (f - 2) * 0.05 + R() * 0.08;
+      px.px(cx + Math.cos(q) * S.rx * out, cy + Math.sin(q) * S.ry * out, R() < 0.5 ? edgeW : pale, f === 3 ? 230 : 160);
+    }
+  }
+  return px;
+}
+function fxSlashQuickSheet() {
+  const n = 5, sheet = new Px(SLASH_QUICK.w * n, SLASH_QUICK.h);
+  for (let f = 0; f < n; f++) sheet.blit(fxSlashQuickFrame(f), f * SLASH_QUICK.w, 0);
+  return sheet;
+}
 function fxDustPuff() {
   const px = new Px(16, 16);
   px.disc(6, 10, 4, PAL.ashD); px.disc(10, 9, 4.5, PAL.ashD); px.disc(8, 7, 3.5, PAL.ash);
@@ -1675,6 +1754,14 @@ function buildEffects() {
     emit(fpx, rel, { kind: 'effect' });
     index.effects[id] = { file: `assets/${rel}`, width: fpx.w, height: fpx.h };
   }
+  // Spritesheet effect: Pale Hour Blade crescent (frames left-to-right).
+  const sq = fxSlashQuickSheet(), rel = 'effects/fx_slash_quick.png';
+  emit(sq, rel, { kind: 'effect' });
+  index.effects.fx_slash_quick = {
+    file: `assets/${rel}`, width: sq.w, height: sq.h,
+    frameWidth: SLASH_QUICK.w, frameHeight: SLASH_QUICK.h, frames: 5,
+    pivot: { x: SLASH_QUICK.pivot[0], y: SLASH_QUICK.pivot[1] },
+  };
   emitJSON('effects/effects.json', index);
 }
 

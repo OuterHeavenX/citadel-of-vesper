@@ -1962,6 +1962,16 @@
         }
       ]
     },
+    "pickups": [
+      {
+        "itemId": "pale_hour_blade",
+        "quantity": 1,
+        "x": 480,
+        "y": 150,
+        "chest": true,
+        "requiresFlag": "boss_defeated_sable_matriarch"
+      }
+    ],
     "breakables": [
       {
         "kind": "candle",

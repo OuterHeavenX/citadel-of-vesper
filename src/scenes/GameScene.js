@@ -64,7 +64,7 @@ import { PlayerCombat } from '../player/PlayerCombat.js';
 import { PlayerAnimation } from '../player/PlayerAnimation.js';
 import { HitboxSystem } from '../combat/HitboxSystem.js';
 import { ProjectileSystem } from '../combat/ProjectileSystem.js';
-import { effectsManager } from '../effects/index.js';
+import { effectsManager, SlashFx } from '../effects/index.js';
 import { RoomManager } from '../rooms/RoomManager.js';
 import { Boss, resolveFloorY } from '../bosses/Boss.js';
 import { SceneKeys } from './index.js';
@@ -262,6 +262,10 @@ export class GameScene extends Phaser.Scene {
 
     // --- 3. effects (GAME_FEEL checklist #1) ---
     this.effectsManager.attachScene(this);
+    // Detached weapon slashes (Pale Hour Blade): driven by 'player:slashed',
+    // pivoted on the player's feet-anchored position.
+    this.slashFx = new SlashFx();
+    this.slashFx.attachScene(this, { getOwnerPosition: () => this.player?.getPosition?.() ?? null });
 
     // --- 4. room manager (stub-safe until W3-ROOMS lands) ---
     this.roomManager = new RoomManager(this);
@@ -298,8 +302,8 @@ export class GameScene extends Phaser.Scene {
           /* sprite mid-destroy — fall through */
         }
       }
-      const p = player.getPosition();
-      return { x: p.x - 8, y: p.y - 12, width: 16, height: 24 };
+      const p = player.getPosition(); // feet-anchored
+      return { x: p.x - 8, y: p.y - 24, width: 16, height: 24 };
     };
     this.hitboxSystem.registerHurtbox(player, { ...PLAYER_HURTBOX });
     // GAME_FEEL checklist #3: victim registry for hit flashes.
@@ -415,9 +419,12 @@ export class GameScene extends Phaser.Scene {
     }
 
     const dt = Math.min(delta / 1000, 0.1); // clamp hitch spikes
+    // A J/confirm press that just closed a menu, dialogue or modal must not
+    // also swing the sword on the same frame.
+    const uiConsumedInput = stackWasActive || modalWasActive || mapWasOpen;
     if (!this.effectsManager.shouldFreeze()) {
       try {
-        this.player?.update(dt);
+        this.player?.update(dt, { attackInput: !uiConsumedInput });
       } catch (err) {
         console.error('[GameScene] player.update threw:', err);
       }
@@ -429,6 +436,8 @@ export class GameScene extends Phaser.Scene {
       const p = this.player?.getPosition?.();
       if (p) audioManager.setListenerPosition(p.x, p.y);
     }
+    // Slashes hold on their impact frame while hit pause freezes the world.
+    this.slashFx?.update(this.effectsManager.shouldFreeze() ? 0 : Math.min(delta, 100));
     // REAL unscaled ms — hit-pause countdowns must complete while frozen.
     this.effectsManager.update(delta);
   }
@@ -2051,7 +2060,7 @@ export class GameScene extends Phaser.Scene {
     const p = this.player?.getPosition?.();
     const au = tuning.audio ?? {};
     if (s === 'land' && prev !== 'land') {
-      if (p) this.effectsManager.spawnLandDust(p.x, p.y + 10);
+      if (p) this.effectsManager.spawnLandDust(p.x, p.y - 2); // feet-anchored
       this._sfx('land', { channel: 'player', volume: au.landVolume ?? 0.55 });
     }
     if (s === 'jump' && prev !== 'jump') {
@@ -2229,6 +2238,12 @@ export class GameScene extends Phaser.Scene {
     } catch {
       /* never attached */
     }
+    try {
+      this.slashFx?.detach();
+    } catch {
+      /* never attached */
+    }
+    this.slashFx = null;
     this._callRoomSync('unloadCurrentRoom');
     try {
       this.hitboxSystem?.shutdown();

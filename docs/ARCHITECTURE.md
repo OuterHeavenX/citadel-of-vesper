@@ -101,6 +101,7 @@ Full catalog (payload shapes) — see `Events` in `src/core/EventBus.js`:
 | `player:leveledUp` | `{ level, stats }` |
 | `player:xpGained` | `{ amount, total }` |
 | `player:abilityUnlocked` | `{ abilityId }` |
+| `player:slashed` | `{ weaponId, texture, facing, comboStep, flipY, duration, offsetX, offsetY, tint, scale }` — a `slashFx` weapon's active window opened; `src/effects/SlashFx.js` draws the detached slash |
 | `combat:hitLanded` | `{ attacker, target, amount, critical }` |
 | `enemy:died` | `{ enemyId, instanceId, roomId, drops }` |
 | `enemy:damaged` | `{ instanceId, amount, hp }` |

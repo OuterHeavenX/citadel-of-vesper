@@ -85,6 +85,13 @@
       "frameHeight": 64,
       "frames": 3,
       "fps": 12
+    },
+    "attack_quick": {
+      "file": "assets/player/lucien_attack_quick.png",
+      "frameWidth": 64,
+      "frameHeight": 64,
+      "frames": 3,
+      "fps": 18
     }
   }
 }

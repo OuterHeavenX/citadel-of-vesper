@@ -64,6 +64,12 @@ export const tuning = {
     hitPauseMs: 60,       // ms — hit pause budget on landing a hit (≤90 per spec §17)
     hitStunLight: 0.18,   // s — player hitstun, light hits
     hitStunHeavy: 0.35,   // s — player hitstun, heavy hits
+    // Player swing geometry, relative to Lucien's FEET (player.getPosition()).
+    attackHitboxOffsetY: -22, // px — hitbox center height (chest)
+    comboWindow: 0.3,     // s — a swing started this soon after the last one ends continues the combo
+    slashAnchorX: 2,      // px — slash effect pivot ahead of center (shoulder; mirrored by facing)
+    slashAnchorY: -28,    // px — slash effect pivot height above the feet (shoulder)
+    spawnLift: 10,        // px — spawns/teleports place the feet this far above the given y (never inside a floor)
   },
   knockback: {
     takenKnockbackX: 160, // px/s — default horizontal knockback taken (no data)

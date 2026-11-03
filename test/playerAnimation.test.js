@@ -35,11 +35,11 @@ function makePlayer(state = 'idle', facingRight = true) {
 }
 
 describe('PlayerAnimation', () => {
-  it('createAnims builds one clip per lucien.json entry (12 clips)', () => {
+  it('createAnims builds one clip per lucien.json entry (13 clips)', () => {
     const anim = new PlayerAnimation(makePlayer());
     const scene = makeScene();
     anim.createAnims(scene);
-    expect(scene.anims.create).toHaveBeenCalledTimes(12);
+    expect(scene.anims.create).toHaveBeenCalledTimes(13);
     const keys = scene.anims.create.mock.calls.map((c) => c[0].key);
     expect(keys).toContain('lucien_idle');
     expect(keys).toContain('lucien_attack_sword');
@@ -53,6 +53,17 @@ describe('PlayerAnimation', () => {
     const atk = scene.anims.create.mock.calls.find((c) => c[0].key === 'lucien_attack_sword')[0];
     expect(atk.frames).toHaveLength(3);
     expect(atk.frameRate).toBe(12);
+  });
+
+  it('builds the bladeless quick-slash clip (Pale Hour Blade) as a one-shot', () => {
+    const anim = new PlayerAnimation(makePlayer());
+    const scene = makeScene();
+    anim.createAnims(scene);
+    const quick = scene.anims.create.mock.calls.find((c) => c[0].key === 'lucien_attack_quick')?.[0];
+    expect(quick).toBeTruthy();
+    expect(quick.frames).toHaveLength(3);
+    expect(quick.repeat).toBe(0);
+    expect(quick.frameRate).toBeGreaterThan(12); // quicker than the arming-sword swing
   });
 
   it('skips clips whose textures are missing (headless / art not staged)', () => {
@@ -142,5 +153,52 @@ describe('PlayerAnimation', () => {
     anim.createAnims(makeScene({ animsExist: true }));
     anim.update(player);
     expect(player.sprite.play).toHaveBeenCalledWith('lucien_attack_sword');
+  });
+
+  // ---------------------------------------------------------- weapon clips
+
+  it("prefers the weapon's attackProfile.animationKey when that clip is staged", () => {
+    const sprite = { flipX: false, play: vi.fn(), setFlipX: vi.fn() };
+    const anim = new PlayerAnimation(sprite);
+    anim.createAnims(makeScene({ animsExist: true }));
+    anim.setState('attack', { facing: 1, weaponFamily: 'sword', attackKey: 'lucien_attack_quick' });
+    expect(sprite.play).toHaveBeenCalledWith('lucien_attack_quick');
+  });
+
+  it('falls back to the family clip, then sword art, when the weapon clip is not staged', () => {
+    const sprite = { flipX: false, play: vi.fn(), setFlipX: vi.fn() };
+    const anim = new PlayerAnimation(sprite);
+    const scene = makeScene();
+    scene.anims.exists = vi.fn((k) => k === 'lucien_attack_sword');
+    anim.createAnims(scene);
+    anim.setState('attack', { facing: 1, weaponFamily: 'spear', attackKey: 'lucien_attack_missing' });
+    expect(sprite.play).toHaveBeenCalledWith('lucien_attack_sword');
+  });
+
+  it('a new attackId replays the attack clip even when the key is unchanged (chained swings)', () => {
+    const sprite = { flipX: false, play: vi.fn(), setFlipX: vi.fn() };
+    const anim = new PlayerAnimation(sprite);
+    anim.createAnims(makeScene({ animsExist: true }));
+    const opts = { facing: 1, weaponFamily: 'sword', attackKey: 'lucien_attack_quick' };
+    anim.setState('attack', { ...opts, attackId: 1 });
+    anim.setState('attack', { ...opts, attackId: 1 }); // same swing -> no restart
+    expect(sprite.play).toHaveBeenCalledTimes(1);
+    anim.setState('attack', { ...opts, attackId: 2 }); // chained swing -> replay
+    expect(sprite.play).toHaveBeenCalledTimes(2);
+    expect(sprite.play).toHaveBeenLastCalledWith('lucien_attack_quick');
+  });
+
+  it('facade mode reads the swing serial from combat to replay chained swings', () => {
+    let serial = 1;
+    const player = makePlayer('idle', true);
+    player.getCombat = () => ({ isAttacking: () => true, getAttackSerial: () => serial });
+    const anim = new PlayerAnimation(player);
+    anim.createAnims(makeScene({ animsExist: true }));
+    anim.update(player);
+    anim.update(player);
+    expect(player.sprite.play).toHaveBeenCalledTimes(1);
+    serial = 2;
+    anim.update(player);
+    expect(player.sprite.play).toHaveBeenCalledTimes(2);
   });
 });

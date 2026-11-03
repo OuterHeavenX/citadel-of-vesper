@@ -745,3 +745,6 @@ export class EffectsManager {
  * construct their own EffectsManager with an isolated bus.
  */
 export const effectsManager = new EffectsManager();
+
+// Detached weapon slashes (Pale Hour Blade) — see ./SlashFx.js.
+export { SlashFx, slashLayout, SLASH_POOL_SIZE, SLASH_DEPTH } from './SlashFx.js';

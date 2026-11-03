@@ -69,10 +69,12 @@ export const AssetPacks = Object.freeze({
     sheet('lucien_turn', 'assets/player/lucien_turn.png', 64, 64),
     sheet('lucien_dash', 'assets/player/lucien_dash.png', 64, 64),
     sheet('lucien_attack_sword', 'assets/player/lucien_attack_sword.png', 64, 64),
+    sheet('lucien_attack_quick', 'assets/player/lucien_attack_quick.png', 64, 64),
     sheet('lucien_hurt', 'assets/player/lucien_hurt.png', 64, 64),
     sheet('lucien_die', 'assets/player/lucien_die.png', 64, 64),
     img('fx_hit_spark', 'assets/effects/fx_hit_spark.png'),
     img('fx_slash_arc', 'assets/effects/fx_slash_arc.png'),
+    sheet('fx_slash_quick', 'assets/effects/fx_slash_quick.png', 96, 72),
     img('fx_dust_puff', 'assets/effects/fx_dust_puff.png'),
   ],
 
@@ -136,6 +138,7 @@ export const AssetPacks = Object.freeze({
     // weapons (assets/weapons/)
     img('recruit_blade', 'assets/weapons/recruit_blade.png'),
     img('moonsteel_sabre', 'assets/weapons/moonsteel_sabre.png'),
+    img('pale_hour_blade', 'assets/weapons/pale_hour_blade.png'),
     // armor + accessories + consumables (assets/items/)
     img('wayfarer_coat', 'assets/items/wayfarer_coat.png'),
     img('dusk_hood', 'assets/items/dusk_hood.png'),
@@ -183,6 +186,7 @@ export const AssetPacks = Object.freeze({
     // sfx referenced by data
     sfx('swing_sword', 'swing_sword'),
     sfx('swing_sabre', 'swing_sabre'),
+    sfx('swing_quick', 'swing_quick'),
     sfx('hound_growl', 'hound_growl'),
     sfx('blade_scrape', 'blade_scrape'),
     // Wave 2: enemy telegraph + breakable sfx referenced by data/enemies.json

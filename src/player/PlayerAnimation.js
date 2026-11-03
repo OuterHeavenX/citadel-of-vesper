@@ -13,11 +13,20 @@
  *   using the frame layout in assets/player/lucien.json
  *   ({frames, fps} per clip). Headless-safe: clips whose texture key is
  *   missing are skipped, and play() is guarded by anims.exists().
+ * - Attack clip resolution (first staged clip wins):
+ *     1. the equipped weapon's attackProfile.animationKey (data/weapons.json)
+ *        — e.g. 'lucien_attack_quick' for the Pale Hour Blade, whose clip
+ *        never draws the blade (its slash is a separate effect, SlashFx);
+ *     2. 'lucien_attack_<family>';
+ *     3. 'lucien_attack_sword' (always staged).
+ * - Every swing restarts its clip: callers pass a per-swing `attackId`
+ *   (PlayerCombat.getAttackSerial()), so chained/buffered attacks replay the
+ *   windup instead of holding the previous swing's last frame.
  * - Driven by movement/combat STATE — never by input directly. Two wirings
  *   are supported (see CONSTRUCTION below):
  *     update(player)            — facade-driven (primary contract)
  *     setState(state, opts)     — explicit state driver; opts { facing,
- *                                 weaponFamily }
+ *                                 weaponFamily, attackKey, attackId }
  * - One-shot clips (land, turn, hurt, die, attack_*) play once and hold
  *   their last frame until the state changes; locomotion clips loop.
  * - Facing via sprite.flipX (art faces right by default).
@@ -87,6 +96,8 @@ export class PlayerAnimation {
     this._currentKey = null;
     /** State set before a sprite/scene was available. */
     this._pending = null;
+    /** attackId of the swing whose clip is playing (restart detection). */
+    this._attackId = null;
   }
 
   /**
@@ -117,26 +128,41 @@ export class PlayerAnimation {
     this._flushPending();
   }
 
-  /** Weapon family of the currently equipped weapon (default 'sword'). */
-  _family() {
+  /** Equipped weapon definition, or null (no weapon / data not loaded). */
+  _weaponDef() {
     try {
       const weaponId = gameState.data.equipment.weapon;
-      if (!weaponId) return 'sword';
-      const def = dataManager.getData('weapons').find((w) => w.id === weaponId);
-      return def?.family ?? 'sword';
+      if (!weaponId) return null;
+      return dataManager.getData('weapons').find((w) => w.id === weaponId) ?? null;
     } catch {
-      return 'sword';
+      return null;
     }
   }
 
-  /** Resolve the attack clip, falling back to the staged sword art. */
-  _attackKey(family) {
-    const key = `lucien_attack_${family ?? this._family()}`;
-    if (this.scene?.anims && typeof this.scene.anims.exists === 'function') {
-      if (this.scene.anims.exists(key)) return key;
-    } else {
-      return key; // no scene to check against — trust the caller
+  /** Weapon family of the currently equipped weapon (default 'sword'). */
+  _family() {
+    return this._weaponDef()?.family ?? 'sword';
+  }
+
+  /** The equipped weapon's preferred attack clip (attackProfile.animationKey). */
+  _weaponAttackKey() {
+    return this._weaponDef()?.attackProfile?.animationKey ?? null;
+  }
+
+  /**
+   * Resolve the attack clip: the weapon's own animationKey when staged, then
+   * the family clip, then the staged sword art.
+   * @param {string} [family] weapon family
+   * @param {string|null} [preferred] attackProfile.animationKey
+   */
+  _attackKey(family, preferred = null) {
+    const familyKey = `lucien_attack_${family ?? this._family()}`;
+    const anims = this.scene?.anims;
+    if (!anims || typeof anims.exists !== 'function') {
+      return preferred ?? familyKey; // no scene to check against — trust the caller
     }
+    if (preferred && anims.exists(preferred)) return preferred;
+    if (anims.exists(familyKey)) return familyKey;
     return FALLBACK_ATTACK_ANIM;
   }
 
@@ -149,8 +175,11 @@ export class PlayerAnimation {
   /**
    * Explicit state driver (sprite wiring). Never reads input.
    * @param {string} state movement/combat state; 'attack' plays the
-   *   weapon-family attack clip
-   * @param {{facing?: number, weaponFamily?: string}} [opts] facing: 1|-1
+   *   weapon's attack clip (see "Attack clip resolution" above)
+   * @param {{facing?: number, weaponFamily?: string, attackKey?: string|null,
+   *   attackId?: number|null}} [opts] facing: 1|-1; attackKey: the weapon's
+   *   attackProfile.animationKey; attackId: per-swing serial — a new id
+   *   restarts the attack clip even when the key is unchanged
    */
   setState(state, opts = {}) {
     const sprite = this._resolveSprite();
@@ -166,10 +195,19 @@ export class PlayerAnimation {
       else sprite.flipX = flip;
     }
 
-    const key =
-      state === 'attack' ? this._attackKey(opts.weaponFamily) : (STATE_ANIMS[state] ?? STATE_ANIMS.idle);
+    const attacking = state === 'attack';
+    const key = attacking
+      ? this._attackKey(opts.weaponFamily, opts.attackKey ?? null)
+      : (STATE_ANIMS[state] ?? STATE_ANIMS.idle);
 
-    if (key !== this._currentKey) {
+    // A chained swing keeps state 'attack' (and often the same key) — a new
+    // attackId is what tells us to replay the clip from its first frame.
+    const newSwing =
+      attacking && opts.attackId !== undefined && opts.attackId !== null && opts.attackId !== this._attackId;
+    if (attacking && opts.attackId !== undefined) this._attackId = opts.attackId;
+    if (!attacking) this._attackId = null;
+
+    if (key !== this._currentKey || newSwing) {
       this._currentKey = key;
       this._play(sprite, key);
     }
@@ -194,7 +232,18 @@ export class PlayerAnimation {
       }
       const facing =
         typeof player.isFacingRight === 'function' ? (player.isFacingRight() ? 1 : -1) : 1;
-      this.setState(state, { facing, weaponFamily: this._family() });
+      let attackId = null;
+      try {
+        attackId = player.getCombat?.()?.getAttackSerial?.() ?? null;
+      } catch {
+        attackId = null;
+      }
+      this.setState(state, {
+        facing,
+        weaponFamily: this._family(),
+        attackKey: this._weaponAttackKey(),
+        attackId,
+      });
       return;
     }
     this._flushPending();

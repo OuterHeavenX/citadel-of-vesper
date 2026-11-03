@@ -14,6 +14,18 @@
       "file": "assets/effects/fx_dust_puff.png",
       "width": 16,
       "height": 16
+    },
+    "fx_slash_quick": {
+      "file": "assets/effects/fx_slash_quick.png",
+      "width": 480,
+      "height": 72,
+      "frameWidth": 96,
+      "frameHeight": 72,
+      "frames": 5,
+      "pivot": {
+        "x": 30,
+        "y": 38
+      }
     }
   }
 }

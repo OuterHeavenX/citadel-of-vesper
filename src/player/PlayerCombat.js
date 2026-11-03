@@ -11,8 +11,9 @@
  * - Animation-driven phases: anticipation → active → recovery. A hitbox is
  *   spawned via HitboxSystem ONLY for the active window (activeFrom/To);
  *   anticipation and recovery never deal damage.
- * - tryAttack(): starts an attack, or buffers the input for
- *   tuning.combat.attackBuffer seconds when already attacking; the buffer is
+ * - tryAttack(): starts an attack, or buffers the input when already
+ *   attacking — for tuning.combat.attackBuffer seconds, stretched to cover
+ *   the rest of a short swing (max 2× the base window); the buffer is
  *   consumed when the current attack ends (combo chaining).
  * - takeDamage(amount, info): called ONLY by DamageSystem. Delegates to the
  *   Player facade (canonical damage target: HP, i-frames, knockback ->
@@ -39,6 +40,21 @@
  *   (entity = the facade itself: takeDamage/getDefense/isInvulnerable).
  *   Enemy hitboxes then damage the player through the single DamageSystem
  *   path.
+ *
+ * SWING IDENTITY + SLASH FX:
+ * - Every started swing gets a new serial (getAttackSerial()) so the
+ *   animation layer can replay the clip on chained swings, and a combo step
+ *   (getComboStep(): 0, 1, 2… while swings chain within
+ *   tuning.combat.comboWindow; resets to 0 otherwise).
+ * - Weapons whose attackProfile carries `slashFx` ({ texture, alternate?,
+ *   tint?, scale? } — e.g. the Pale Hour Blade) emit 'player:slashed' when
+ *   the active window opens. The attack clip for those weapons never draws
+ *   the blade; src/effects/SlashFx.js draws the detached crescent, pivoted
+ *   at the shoulder (tuning.combat.slashAnchorX/Y, relative to the feet) and
+ *   mirrored vertically on odd combo steps when `alternate` is set. Combat
+ *   still never touches effects directly — the event is the only coupling.
+ * - Positions are FEET-anchored (player.getPosition()); the hitbox is
+ *   centered tuning.combat.attackHitboxOffsetY above the feet (chest).
  *
  * trySecondary(): reserved for weapon specials (hold_attack / down_attack /
  * low_hp triggers, data/weapons.json `specials`). The special-move system
@@ -86,6 +102,12 @@ export class PlayerCombat {
     /** weaponId -> resolved { profile, family, specials } cache */
     this._profileCache = new Map();
     this._lastWeaponId = undefined;
+    /** Increments on every started swing (animation restart key). */
+    this._attackSerial = 0;
+    /** 0 for an opening swing; +1 per swing chained within the combo window. */
+    this._comboStep = 0;
+    /** Seconds since the last swing ended (combo window). */
+    this._sinceAttackEnd = Infinity;
   }
 
   /** DamageSystem target identity. */
@@ -151,7 +173,12 @@ export class PlayerCombat {
       return true;
     }
     // Buffer during anticipation/active/recovery — consumed on attack end.
-    this.bufferT = tuning.combat.attackBuffer;
+    // The window stretches to cover the rest of a short swing (the Pale Hour
+    // Blade's ~0.2s cut) so mashing never drops a press, capped at 2× the
+    // base window so slow weapons don't queue long-delayed swings.
+    const base = tuning.combat.attackBuffer;
+    const remaining = this._timing ? Math.max(0, this._timing.total - this.phaseT) + 0.03 : 0;
+    this.bufferT = Math.min(Math.max(base, remaining), base * 2);
     return true;
   }
 
@@ -170,9 +197,23 @@ export class PlayerCombat {
     return this.phase;
   }
 
-  _startAttack() {
+  /** @returns {number} serial of the current/last swing (changes every swing) */
+  getAttackSerial() {
+    return this._attackSerial;
+  }
+
+  /** @returns {number} 0 for an opening swing, +1 per chained swing */
+  getComboStep() {
+    return this._comboStep;
+  }
+
+  /** @param {boolean} [chained] started from the buffer at the end of a swing */
+  _startAttack(chained = false) {
     const resolved = this.getActiveProfile();
     if (!resolved) return;
+    const comboWindow = tuning.combat.comboWindow ?? 0.3;
+    this._comboStep = chained || this._sinceAttackEnd <= comboWindow ? this._comboStep + 1 : 0;
+    this._attackSerial += 1;
     const { profile } = resolved;
     const speed = Math.max(0.2, this._attackSpeed(profile));
 
@@ -210,9 +251,10 @@ export class PlayerCombat {
         w: hb.w,
         h: hb.h,
         // Hitbox rect is centered on this offset: half reach ahead of the
-        // sprite center, mirrored automatically by HitboxSystem via facing.
+        // player, chest height above the feet; mirrored automatically by
+        // HitboxSystem via facing.
         offsetX: (profile.reach ?? 34) * 0.5,
-        offsetY: -6,
+        offsetY: tuning.combat.attackHitboxOffsetY ?? -22,
         duration: T.active + 0.02,
         activeFrom: 0,
         activeTo: T.active,
@@ -231,6 +273,24 @@ export class PlayerCombat {
         },
       });
     }
+
+    // Detached slash effect (the swing clip never draws this weapon's blade).
+    const fx = profile.slashFx;
+    if (fx && typeof fx.texture === 'string') {
+      const step = this._comboStep;
+      eventBus.emit('player:slashed', {
+        weaponId: this._profile.weaponId,
+        texture: fx.texture,
+        facing,
+        comboStep: step,
+        flipY: fx.alternate === true && step % 2 === 1,
+        duration: T.active + T.recovery,
+        offsetX: tuning.combat.slashAnchorX ?? 2,
+        offsetY: tuning.combat.slashAnchorY ?? -28,
+        tint: typeof fx.tint === 'number' ? fx.tint : 0xffffff,
+        scale: typeof fx.scale === 'number' ? fx.scale : 1,
+      });
+    }
   }
 
   _beginRecovery() {
@@ -240,6 +300,7 @@ export class PlayerCombat {
 
   _endAttack() {
     this.phase = 'idle';
+    this._sinceAttackEnd = 0;
     this.phaseT = 0;
     this._timing = null;
     this._profile = null;
@@ -256,6 +317,7 @@ export class PlayerCombat {
     }
     this.bufferT = 0;
     this._endAttack();
+    this._sinceAttackEnd = Infinity; // getting hit breaks the combo
   }
 
   /** @param {number} dt seconds */
@@ -263,10 +325,11 @@ export class PlayerCombat {
     if (this.bufferT > 0) this.bufferT = Math.max(0, this.bufferT - dt);
 
     if (this.phase === 'idle') {
+      this._sinceAttackEnd += dt;
       // Consume buffered attack input (combo chaining).
       if (this.bufferT > 0) {
         this.bufferT = 0;
-        this._startAttack();
+        this._startAttack(true);
       }
       return;
     }
@@ -291,7 +354,7 @@ export class PlayerCombat {
         if (this.bufferT > 0) {
           // Chained attack starts immediately (phaseT reset in _startAttack).
           this.bufferT = 0;
-          this._startAttack();
+          this._startAttack(true);
         } else {
           break;
         }

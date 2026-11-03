@@ -2,6 +2,45 @@
 
 Semantic versioning. The title screen shows the current version.
 
+## [Unreleased] — Pale Hour Blade (quick slashing sword)
+
+### Added
+- **Pale Hour Blade** (`pale_hour_blade`, epic sword): a quick slashing
+  sword (~0.2 s per swing, ATK 26 / CRIT 6 / DEX 4) whose blade is **never
+  drawn on the swing** — Lucien's empty hand whips through and a detached
+  moonlit crescent is the only visible cut. Chained swings alternate
+  down-cut / up-cut. Found on the Sable Sanctum dais once the Sable
+  Matriarch falls (the bridge into the next area).
+- Art (`scripts/make_art.js`): `lucien_attack_quick` (bladeless swing clip),
+  `fx_slash_quick` (5-frame crescent spritesheet + pivot in effects.json),
+  `weapons/pale_hour_blade` icon. SFX: synthesized `swing_quick`.
+- `src/effects/SlashFx.js`: pooled detached-slash renderer driven by the new
+  `player:slashed` event (weapon data `attackProfile.slashFx`).
+- `PlayerAnimation` honors the weapon's `attackProfile.animationKey`;
+  `PlayerCombat` exposes `getAttackSerial()` / `getComboStep()`.
+- Room pickups accept `requiresFlag` (story-gated; revealed live on
+  `flag:set`); `validate` checks boss flags name real bosses.
+- Tests: `slashFx`, `playerFacade`, `inputTap`, `roomGatedPickup`, plus
+  Pale Hour Blade contract checks and combat/animation cases (622 total).
+
+### Fixed
+- **The attack button did nothing**: no code called
+  `PlayerCombat.tryAttack()`. `Player.update()` now turns J / X / pad X /
+  touch ATK into swings (not while stunned, dashing or dead, and not on the
+  frame a menu/dialogue closes on the same press).
+- **Lucien was drawn ~39 px into the floor** and his collision body sat
+  24 px left of his sprite. He is now feet-anchored like enemies: the drawn
+  boots rest on the floor the body collides with; spawns lift the feet
+  `tuning.combat.spawnLift` px so older saves can't start inside a floor.
+  Swing hitboxes moved to chest height to match.
+- Chained swings froze on the previous swing's last frame (clip never
+  restarted); fast taps inside one frame were dropped; presses early in a
+  short swing fell outside the input buffer.
+
+### Known issue (unchanged)
+- Regular room enemies never spawn: nothing calls
+  `EnemyFactory.registerDefs()`, so only bosses and breakables can be hit.
+
 ## [Unreleased] — Wave 5 (UI)
 
 ### Added

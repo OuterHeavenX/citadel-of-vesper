@@ -72,7 +72,7 @@
 | `music` / `ambience` | string | – | Track/bed ids from `src/audio/index.js` registries (`trackForRegion(region)` is the fallback when `music` is absent). |
 | `exits[]` | array | ✅ | May be empty ONLY for dead-ends by design (flagged in review). |
 | `enemies[]` | array | – | `{ id, x, y }` — `id` must exist in `enemies.json`. `x,y` = spawn position (feet). |
-| `pickups[]` | array | – | `{ itemId, quantity?, x, y, chest? }` — `itemId` must exist in the item tables (weapons/armor/accessories/consumables). `chest: true` renders a chest and persists via `gameState.chestStates`. **Static pickups cannot be coins/hearts/mana** (those are currency kinds, not items) — currency drops come from breakables and enemy drop tables instead. |
+| `pickups[]` | array | – | `{ itemId, quantity?, x, y, chest?, requiresFlag? }` — `itemId` must exist in the item tables (weapons/armor/accessories/consumables). `chest: true` renders a chest and persists via `gameState.chestStates`. `requiresFlag` holds the pickup back until that story flag is truthy (e.g. `boss_defeated_sable_matriarch`); if the flag is set while the room is loaded the pickup appears live with a shimmer. `boss_defeated_<id>` flags are checked against `bosses.json` by `npm run validate`. **Static pickups cannot be coins/hearts/mana** (those are currency kinds, not items) — currency drops come from breakables and enemy drop tables instead. |
 | `breakables[]` | array | – | `{ kind, x, y }` — kind: `candle\|crate\|urn\|statue\|chandelier\|furniture`. Drops (coins etc.) roll from their drop tables at break time. |
 | `secrets[]` | array | – | See §Secrets. |
 | `checkpoints[]` | array | – | `{ id, x, y }` — respawn points; emit `room:checkpointTouched`. |

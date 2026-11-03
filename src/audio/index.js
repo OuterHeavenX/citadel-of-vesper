@@ -395,6 +395,14 @@ export const SfxDefinitions = Object.freeze({
       O('triangle', 520, 0.1, { f1: 260, gain: 0.1, a: 0.015, d: 0.06, r: 0.03 }),
     ],
   },
+  swing_quick: {
+    channel: 'weapons', desc: 'Pale Hour Blade — a thin, airy "shhk" cut, fast enough to mash',
+    make: () => [
+      NZ(0.07, { gain: 0.34, filter: HP(2600, 0.7), a: 0.004, d: 0.05, r: 0.02 }),
+      NZ(0.05, { t: 0.01, gain: 0.22, filter: BP(5200, 2.2), a: 0.002, d: 0.035, r: 0.015 }),
+      O('sine', 1400, 0.05, { f1: 700, gain: 0.05, a: 0.003, d: 0.035, r: 0.015 }),
+    ],
+  },
   enemy_hit: {
     channel: 'weapons', desc: 'Heavy impact crunch (boss strikes, telegraph fallback)',
     make: () => [

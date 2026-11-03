@@ -108,6 +108,7 @@ function main() {
     for (const it of tables[f] ?? []) itemIds.add(it.id);
   }
   const enemyIds = new Set((tables['enemies.json'] ?? []).map((e) => e.id));
+  const bossIds = new Set((tables['bosses.json'] ?? []).map((b) => b.id));
   const abilityIds = new Set((tables['abilities.json'] ?? []).map((a) => a.id));
   const roomIds = new Set((tables['rooms.json'] ?? []).map((r) => r.id));
   const rooms = tables['rooms.json'] ?? [];
@@ -120,6 +121,12 @@ function main() {
     }
     for (const p of room.pickups ?? []) {
       if (!itemIds.has(p.itemId)) fail(`rooms.json:${room.id}: unknown pickup item '${p.itemId}'`);
+      // Gated pickups: boss flags must name a real boss (storyFlags sets
+      // `boss_defeated_<bossId>` on 'boss:died').
+      const bossFlag = /^boss_defeated_(.+)$/.exec(p.requiresFlag ?? '');
+      if (bossFlag && !bossIds.has(bossFlag[1])) {
+        fail(`rooms.json:${room.id}: pickup '${p.itemId}' requiresFlag '${p.requiresFlag}' names unknown boss '${bossFlag[1]}'`);
+      }
     }
     for (const s of room.secrets ?? []) {
       const rid = s.reward?.itemId;

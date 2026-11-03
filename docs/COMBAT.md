@@ -15,6 +15,34 @@ Each family changes: animation key, reach, recovery, attack speed,
 knockback, sound, visual effect, hitbox size, special move
 (`attackProfile` in `data/weapons.json`).
 
+## Slash-only weapons (`attackProfile.slashFx`)
+
+Some swords never draw their blade on the swing — only the cut. The
+**Pale Hour Blade** (`pale_hour_blade`, the quick slashing sword found in
+the Sable Sanctum after the Sable Matriarch falls) works like this:
+
+- Its `animationKey` (`lucien_attack_quick`) is a 3-frame, 18 fps clip of
+  Lucien's empty hand whipping through. `PlayerAnimation` plays the weapon's
+  own `animationKey` when staged, else `lucien_attack_<family>`, else the
+  sword clip. Each swing replays from frame 0 (per-swing serial), so chained
+  swings never freeze on the previous swing's last frame.
+- `slashFx: { texture, alternate?, tint?, scale? }` makes `PlayerCombat` emit
+  `player:slashed` when the active window opens. `src/effects/SlashFx.js`
+  draws the crescent spritesheet (`fx_slash_quick`, 5 frames) pivoted on the
+  shoulder (`tuning.combat.slashAnchorX/Y`), following Lucien for the rest of
+  the swing, mirrored by facing, and flipped vertically on every other chained
+  swing (`alternate`: down-cut, up-cut, down-cut…). It holds its frame during
+  hit pause. The pivot comes from `assets/effects/effects.json`, written by
+  `scripts/make_art.js` next to the art.
+- Timing: anticipation 0.02 s, ~0.2 s per swing (vs ~0.55 s for the Recruit's
+  Blade). The input buffer stretches to cover the rest of a short swing (max
+  2× `attackBuffer`) and sub-frame taps are latched by `InputManager`, so
+  mashing never drops a press. `getComboStep()` counts swings chained within
+  `tuning.combat.comboWindow`; getting hit resets it.
+
+Any other weapon can adopt the style with data only: point `animationKey`
+at a bladeless clip and add `slashFx`.
+
 ## Damage pipeline
 
 `DamageSystem.applyDamage(source, target, opts)` — the only damage path.
