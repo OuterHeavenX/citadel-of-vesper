@@ -111,8 +111,13 @@ export class SaveSanctum {
   update() {
     if (!this.active) return;
     const pressed = (a) => this.input.justPressed(a);
+    // J is both 'confirm' and 'attack': a sword swing must not trigger the
+    // prompt, so a confirm press that is also an attack press is ignored
+    // here (Enter / Up / W / pad A / touch TALK still interact).
+    const interactPressed = (a) =>
+      a === 'confirm' ? pressed('confirm') && !pressed('attack') : pressed(a);
     const interact =
-      pressed(this.interactAction) ||
+      interactPressed(this.interactAction) ||
       (this.interactAction !== 'move_up' && pressed('move_up'));
 
     if (this.mode === 'prompt') {

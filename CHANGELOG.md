@@ -21,7 +21,8 @@ Semantic versioning. The title screen shows the current version.
 - Room pickups accept `requiresFlag` (story-gated; revealed live on
   `flag:set`); `validate` checks boss flags name real bosses.
 - Tests: `slashFx`, `playerFacade`, `inputTap`, `roomGatedPickup`, plus
-  Pale Hour Blade contract checks and combat/animation cases (622 total).
+  Pale Hour Blade contract checks and combat/animation cases, plus
+  `breakableHits` and interact-vs-attack cases (633 total).
 
 ### Fixed
 - **The attack button did nothing**: no code called
@@ -37,9 +38,24 @@ Semantic versioning. The title screen shows the current version.
   restarted); fast taps inside one frame were dropped; presses early in a
   short swing fell outside the input buffer.
 
-### Known issue (unchanged)
-- Regular room enemies never spawn: nothing calls
-  `EnemyFactory.registerDefs()`, so only bosses and breakables can be hit.
+### Fixed — enemies & breakables
+- **Regular enemies never spawned**: nothing called
+  `EnemyFactory.registerDefs()`, so every room enemy failed to build.
+  `RoomManager.init()` now registers `data/enemies.json`; all 8 enemy types
+  spawn, fight, die, drop loot and award XP.
+- **Breakables could not be hit**: `HitboxSystem` gains a prop registry
+  (`registerProp`/`unregisterProp`) — player swings call `Breakable.hit()`
+  (one hit per swing; enemy attacks never break props). Rooms register
+  their candles/urns/crates/chandeliers; breaking one bursts debris and
+  rolls its drops (coins, hearts).
+- Ground props (60 candles/urns/crates) floated 16 px above the floor;
+  their `y` now sits on the floor surface (`ROOM_FORMAT.md` documents `y`
+  as the prop's base).
+- Lucien could walk off the side of a room past a sealed exit and fall
+  forever; room side edges are now solid (top/bottom stay open for exits).
+- J is both attack and confirm: swinging next to an NPC, save statue or
+  teleport chamber no longer opens it (Enter / Up / W / pad A / touch TALK
+  still interact).
 
 ## [Unreleased] — Wave 5 (UI)
 

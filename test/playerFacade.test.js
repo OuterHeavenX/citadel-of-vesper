@@ -18,6 +18,7 @@ function makeBody() {
     touching: { down: false },
     checkCollision: { down: true },
     setAllowGravity: vi.fn(),
+    setCollideWorldBounds: vi.fn(),
     setSize(w, h) { this.width = w; this.height = h; return this; },
     setOffset(x, y) { this.offset.x = x; this.offset.y = y; return this; },
     setVelocity(x, y) { this.velocity.x = x; this.velocity.y = y; return this; },
@@ -92,6 +93,7 @@ describe('Player facade — feet anchoring', () => {
     expect(r.bottom).toBeCloseTo(s.y); // feet == sprite y == body bottom
     expect((r.left + r.right) / 2).toBeCloseTo(s.x); // centered
     expect(player.getPosition()).toEqual({ x: s.x, y: s.y });
+    expect(s.body.setCollideWorldBounds).toHaveBeenCalledWith(true); // can't walk off a room edge
     player.destroy();
   });
 

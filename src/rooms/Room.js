@@ -112,7 +112,10 @@ export class Room {
     const scene = this.scene;
     const def = this.def;
 
-    scene.physics.world.setBounds(0, 0, def.width, def.height);
+    // Left/right room edges are walls (a sealed side exit must not let the
+    // player walk off the floor and fall forever); top/bottom stay open so
+    // up/down exits and pits keep working.
+    scene.physics.world.setBounds(0, 0, def.width, def.height, true, true, false, false);
 
     const geom = def.geometry ?? {};
     if (!this._buildTilemap(geom)) this._buildFallbackBodies(geom);
@@ -125,13 +128,7 @@ export class Room {
     });
     this._buildZones('secret', def.secrets ?? [], (secret) => this._discoverSecret(secret));
 
-    for (const b of def.breakables ?? []) {
-      this.breakables.push(
-        new Breakable(scene, b.kind, b.x, b.y, {
-          spawnPickup: (x, y, ref) => ctx.spawnPickup(x, y, ref),
-        }),
-      );
-    }
+    this._buildBreakables(def.breakables ?? []);
 
     this._buildPickups(def.pickups ?? []);
 
@@ -139,6 +136,37 @@ export class Room {
     this._buildParallax();
     this._buildAmbience();
     return this;
+  }
+
+  /**
+   * @private data/rooms.json breakables. Each registers with HitboxSystem as
+   * a prop so player swings break it (drops + shatter + debris burst), and
+   * unregisters once broken or when the room unloads.
+   * @param {object[]} list
+   */
+  _buildBreakables(list) {
+    const ctx = this.ctx ?? {};
+    list.forEach((b, i) => {
+      let brk;
+      try {
+        brk = new Breakable(this.scene, b.kind, b.x, b.y, {
+          id: `${this.roomId}:brk:${i}`,
+          spawnPickup: (x, y, ref) => ctx.spawnPickup?.(x, y, ref),
+          onBroken: (broken) => {
+            try { ctx.hitboxSystem?.unregisterProp?.(broken); } catch { /* noop */ }
+            try {
+              const r = broken.getBounds();
+              ctx.effectsManager?.burst?.(r.x + r.width / 2, r.y + r.height / 2, 'breakable');
+            } catch { /* cosmetic */ }
+          },
+        });
+      } catch (err) {
+        console.warn(`[Room] breakable '${b.kind}' failed:`, err?.message);
+        return;
+      }
+      this.breakables.push(brk);
+      try { ctx.hitboxSystem?.registerProp?.(brk); } catch { /* optional */ }
+    });
   }
 
   /**
@@ -253,6 +281,7 @@ export class Room {
     this._gatedPickups = [];
     this._releaseFlagWatch();
     for (const b of this.breakables) {
+      try { this.ctx?.hitboxSystem?.unregisterProp?.(b); } catch { /* never break teardown */ }
       try { b.destroy(); } catch { /* never break teardown */ }
     }
     this.breakables = [];

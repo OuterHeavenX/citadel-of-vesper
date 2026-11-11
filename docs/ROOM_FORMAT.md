@@ -42,7 +42,7 @@
   ],
   "enemies": [{ "id": "ash_hound", "x": 420, "y": 210 }],
   "pickups": [{ "itemId": "ember_tonic", "quantity": 1, "x": 200, "y": 190, "chest": true }],
-  "breakables": [{ "kind": "candle", "x": 120, "y": 210 }],
+  "breakables": [{ "kind": "candle", "x": 120, "y": 240 }],
   "secrets": [
     {
       "id": "mg006_cache", "kind": "breakable_wall",
@@ -73,7 +73,7 @@
 | `exits[]` | array | ✅ | May be empty ONLY for dead-ends by design (flagged in review). |
 | `enemies[]` | array | – | `{ id, x, y }` — `id` must exist in `enemies.json`. `x,y` = spawn position (feet). |
 | `pickups[]` | array | – | `{ itemId, quantity?, x, y, chest?, requiresFlag? }` — `itemId` must exist in the item tables (weapons/armor/accessories/consumables). `chest: true` renders a chest and persists via `gameState.chestStates`. `requiresFlag` holds the pickup back until that story flag is truthy (e.g. `boss_defeated_sable_matriarch`); if the flag is set while the room is loaded the pickup appears live with a shimmer. `boss_defeated_<id>` flags are checked against `bosses.json` by `npm run validate`. **Static pickups cannot be coins/hearts/mana** (those are currency kinds, not items) — currency drops come from breakables and enemy drop tables instead. |
-| `breakables[]` | array | – | `{ kind, x, y }` — kind: `candle\|crate\|urn\|statue\|chandelier\|furniture`. Drops (coins etc.) roll from their drop tables at break time. |
+| `breakables[]` | array | – | `{ kind, x, y }` — `y` is the prop's **base** (ground props sit on the floor surface, e.g. `y: 240` on a floor at 240; chandeliers hang from their y). Player swings break them (HitboxSystem prop registry). kind: `candle\|crate\|urn\|statue\|chandelier\|furniture`. Drops (coins etc.) roll from their drop tables at break time. |
 | `secrets[]` | array | – | See §Secrets. |
 | `checkpoints[]` | array | – | `{ id, x, y }` — respawn points; emit `room:checkpointTouched`. |
 | `npcs[]` | array | – | `{ id, x, y }` — npc definitions resolve via flags/relocation. |

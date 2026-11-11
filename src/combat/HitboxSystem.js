@@ -31,6 +31,12 @@
  * - drawDebug(graphics): hitboxes red while in their active window, amber
  *   otherwise; hurtboxes green. Duck-typed graphics (lineStyle/strokeRect).
  * - despawnHitbox(id): cancel a single hitbox (used by PlayerCombat.cancelOnHit).
+ * - registerProp(prop, box) / unregisterProp(prop): breakable props
+ *   (candles, urns, crates, chandeliers). Props are NOT DamageSystem
+ *   targets: an active PLAYER hitbox (source.kind 'player') that overlaps
+ *   one calls prop.hit() once per swing. prop: { id, hit(), isBroken?(),
+ *   getBounds?() } — `box` ({w,h,offsetX?,offsetY?} around prop x/y) is
+ *   the fallback when it has no getBounds(). Enemy attacks never break props.
  * - forEachHurtbox(fn): public read accessor — ProjectileSystem collides
  *   against this registry so hurtboxes have a single source of truth.
  *
@@ -63,6 +69,8 @@ export class HitboxSystem {
     this._hitboxes = new Map();
     /** @type {Map<string, {entity:object, box:object}>} entity id -> hurtbox */
     this._hurtboxes = new Map();
+    /** @type {Map<string, {entity:object, box:object}>} prop id -> breakable */
+    this._props = new Map();
     // Scratch rects — reused every frame, never allocated in update().
     this._rectA = { x: 0, y: 0, width: 0, height: 0 };
     this._rectB = { x: 0, y: 0, width: 0, height: 0 };
@@ -124,6 +132,28 @@ export class HitboxSystem {
     const id = entityIdOf(entity);
     if (!id) throw new Error('[HitboxSystem] registerHurtbox: entity needs an id');
     this._hurtboxes.set(id, { entity, box: box ?? { w: 0, h: 0, offsetX: 0, offsetY: 0 } });
+  }
+
+  /**
+   * Breakable prop (player attacks only; see CONTRACT).
+   * @param {object} prop { id, hit(), isBroken?(), getBounds?() }
+   * @param {{w:number,h:number,offsetX?:number,offsetY?:number}} [box]
+   */
+  registerProp(prop, box = null) {
+    const id = entityIdOf(prop);
+    if (!id) throw new Error('[HitboxSystem] registerProp: prop needs an id');
+    this._props.set(id, { entity: prop, box: box ?? { w: 16, h: 16, offsetX: 0, offsetY: -8 } });
+  }
+
+  /** @param {object} prop */
+  unregisterProp(prop) {
+    const id = entityIdOf(prop);
+    if (id) this._props.delete(id);
+  }
+
+  /** @returns {number} registered props (debug overlay / tests) */
+  getPropCount() {
+    return this._props.size;
   }
 
   /** @param {object} entity */
@@ -215,6 +245,21 @@ export class HitboxSystem {
         if (hb.hitOnce) hb.hitSet.add(tid);
         DamageSystem.applyDamage(hb.source, target, hb.damage);
       }
+
+      // Breakable props: player swings only, one hit per prop per swing.
+      if (this._props.size === 0 || hb.source?.kind !== 'player') continue;
+      for (const rec of this._props.values()) {
+        const prop = rec.entity;
+        const pid = entityIdOf(prop);
+        if (hb.hitOnce && hb.hitSet.has(pid)) continue;
+        if (typeof prop.isBroken === 'function' && prop.isBroken()) continue;
+        this._placeHurtboxRect(rec, this._rectB);
+        if (!aabb(this._rectA, this._rectB)) continue;
+        if (hb.hitOnce) hb.hitSet.add(pid);
+        try {
+          prop.hit();
+        } catch { /* a prop must never break combat */ }
+      }
     }
   }
 
@@ -246,5 +291,6 @@ export class HitboxSystem {
   shutdown() {
     this._hitboxes.clear();
     this._hurtboxes.clear();
+    this._props.clear();
   }
 }

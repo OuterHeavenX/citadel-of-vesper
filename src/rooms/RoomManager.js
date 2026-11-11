@@ -39,6 +39,7 @@ import { audioManager } from '../core/AudioManager.js';
 import { assetManager, Stages } from '../core/AssetManager.js';
 import { abilityManager } from '../abilities/index.js';
 import { createEnemyAnims } from '../enemies/index.js';
+import { EnemyFactory } from '../enemies/EnemyFactory.js';
 import { Pickup } from '../props/Pickup.js';
 import { trackForRegion } from '../audio/index.js';
 import { Room, secretFlag } from './Room.js';
@@ -147,6 +148,13 @@ export class RoomManager {
     this._projectileSystem = projectileSystem ?? null;
     this._effectsManager = effectsManager ?? null;
     this._getPlayerFn = getPlayer ?? null;
+    // Enemy definitions (data/enemies.json) — without these EnemyFactory
+    // rejects every room enemy and no regular enemies ever spawn.
+    try {
+      EnemyFactory.registerDefs(this._deps.dataManager.getData('enemies'));
+    } catch (err) {
+      console.warn('[RoomManager] enemy definitions failed to register:', err?.message);
+    }
     // AssetManager room-graph providers are wired by GameScene at boot;
     // RoomManager only consumes assetManager.preloadAdjacent().
   }

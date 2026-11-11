@@ -663,6 +663,25 @@ describe('NpcDirector', () => {
     expect(prompts[prompts.length - 1]).toEqual(['hide']);
   });
 
+  it('the attack key (J = confirm + attack) swings instead of talking', () => {
+    const input = fakeInput();
+    const interacted = [];
+    const dir = make(input, { x: 110, y: 120 }, {
+      showPrompt: () => {},
+      hidePrompt: () => {},
+      onInteract: (npc) => interacted.push(npc.id),
+    });
+    dir.onRoomChanged('r1');
+    dir.update();
+    input.press('confirm');
+    input.press('attack'); // J pressed: both actions fire
+    dir.update();
+    expect(interacted).toEqual([]);
+    input.release('attack'); // Enter: confirm only
+    dir.update();
+    expect(interacted).toEqual(['old_tam']);
+  });
+
   it('no prompt out of radius; move_up also interacts (W3-ABILITIES convention)', () => {
     const input = fakeInput();
     const prompts = [];

@@ -151,7 +151,10 @@ export class NpcDirector {
         return false;
       }
     };
-    if (pressed('confirm') || pressed('move_up')) {
+    // J is both 'confirm' and 'attack': swinging next to an NPC must not open
+    // the dialogue, so a confirm press that is also an attack press doesn't
+    // talk. Enter / Up / W / pad A / touch TALK still do.
+    if ((pressed('confirm') && !pressed('attack')) || pressed('move_up')) {
       const npc = nearest;
       this._clearPrompt();
       this.onInteract(npc);

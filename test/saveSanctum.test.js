@@ -130,4 +130,18 @@ describe('SaveSanctum', () => {
     expect(sanctum.mode).toBe('done');
     expect(views[views.length - 1].message).toMatch(/disk full/);
   });
+
+  it('a sword swing (J = confirm + attack) does not trigger the rest prompt', async () => {
+    const { sanctum, input, emitted } = makeDeps();
+    gameState.setHp(10);
+    sanctum.activate({ id: 'moonlit_gate_save' });
+    input.press('confirm');
+    input.press('attack');
+    sanctum.update();
+    input.clear();
+    await Promise.resolve();
+    expect(gameState.data.player.hp).toBe(10);
+    expect(emitted.some((e) => e.event === 'save:rested')).toBe(false);
+    expect(sanctum.mode).toBe('prompt');
+  });
 });

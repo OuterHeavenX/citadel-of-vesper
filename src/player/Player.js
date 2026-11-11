@@ -112,6 +112,8 @@ export class Player {
     // still resolves tile collisions and reports blocked/touching flags.
     sprite.body.setAllowGravity(false);
     sprite.body.setSize(BODY_W, BODY_H, false);
+    // Room side edges are solid (Room sets left/right bounds collision only).
+    sprite.body.setCollideWorldBounds?.(true);
     sprite.setDepth(10);
     this._bodyFrameW = 0;
     this._bodyFrameH = 0;

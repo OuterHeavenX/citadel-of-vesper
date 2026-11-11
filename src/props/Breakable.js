@@ -57,7 +57,8 @@ export class Breakable {
    * @param {Phaser.Scene|null} scene null => headless
    * @param {'candle'|'urn'|'crate'|'chandelier'} kind
    * @param {number} x @param {number} y feet position
-   * @param {object} [ctx] { rng, playSfx, spawnPickup, onBroken }
+   * @param {object} [ctx] { rng, playSfx, spawnPickup, onBroken, id }
+   *   id: unique per room (HitboxSystem prop registry key)
    */
   constructor(scene, kind, x, y, ctx = {}) {
     const def = BREAKABLE_DEFS[kind];
@@ -69,6 +70,7 @@ export class Breakable {
     this.scene = scene;
     this.kind = kind;
     this.def = def;
+    this.id = ctx.id ?? `breakable:${kind}:${x}:${y}`;
     this.x = x;
     this.y = y;
     this.hp = def.hp;
@@ -96,6 +98,27 @@ export class Breakable {
         this.sprite = null;
       }
     }
+  }
+
+  /** @returns {boolean} already broken (or torn down) — no longer hittable */
+  isBroken() {
+    return this.broken || this.destroyed;
+  }
+
+  /**
+   * World-space hit area: the prop sprite's bounds when drawn, else a box
+   * standing on the feet position (headless).
+   * @returns {{x:number,y:number,width:number,height:number}}
+   */
+  getBounds() {
+    const s = this.sprite;
+    if (s && typeof s.getBounds === 'function') {
+      try {
+        const b = s.getBounds();
+        if (b && b.width > 0 && b.height > 0) return b;
+      } catch { /* fall through */ }
+    }
+    return { x: this.x - 8, y: this.y - 16, width: 16, height: 16 };
   }
 
   /** A hit landed — one hit is enough (hp 1). @returns {boolean} broke now */
